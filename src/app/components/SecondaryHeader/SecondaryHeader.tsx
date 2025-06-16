@@ -1,30 +1,41 @@
-import { MdFormatColorText, MdFormatBold, MdFormatItalic, MdFormatUnderlined, MdOutlinePrint } from 'react-icons/md'
-import Dropdown from './Dropdown'
+import {
+  MdFormatColorText,
+  MdFormatBold,
+  MdFormatItalic,
+  MdFormatUnderlined,
+  MdOutlinePrint,
+  MdBrush,
+  MdAddLink,
+  MdOutlineAddComment,
+  MdOutlineImage,
+  MdFormatIndentIncrease,
+  MdFormatIndentDecrease,
+  MdFormatLineSpacing,
+  MdChecklist,
+  MdFormatListBulleted,
+  MdFormatListNumbered,
+  MdFormatClear
+} from "react-icons/md";
+import Dropdown from "./Dropdown";
 
 const SecondaryHearder = () => {
   return (
-    <div className="h-10 flex 10 justify-between">
-      <div className="flex">
-        <section className="flex">
+    <div className="h-10 flex justify-between items-center p-5 rounded-full bg-[#222222]">
+      <div className="flex items-center">
+        <section className="flex items-center gap-2 px-2 border-r-1">
           <MdOutlinePrint />
-          <Dropdown/>
+          <Dropdown />
         </section>
-        <section>
-          <div>
-            Dropdown styles
-          </div>
+        <section className="flex items-center gap-2 px-2 border-r-1">
+          <div>Dropdown styles</div>
         </section>
-        <section>
-          <div>
-            Font
-          </div>
+        <section className="flex items-center gap-2 px-2 border-r-1">
+          <div>Font</div>
         </section>
-        <section>
-          <div>
-            Font Size
-          </div>
+        <section className="flex items-center gap-2 px-2 border-r-1">
+          <div>Font Size</div>
         </section>
-        <section className="flex">
+        <section className="flex items-center gap-2 px-2 border-r-1">
           <button className="w-5 h-5 white">
             <MdFormatBold />
           </button>
@@ -34,61 +45,41 @@ const SecondaryHearder = () => {
           <button className="w-5 h-5">
             <MdFormatUnderlined />
           </button>
-          <div>
+          <button>
             <MdFormatColorText />
-          </div>
-          <div>
-            Hightlight Color
-          </div>
+          </button>
+          <button>
+            <MdBrush />
+          </button>
         </section>
-        <section>
-          <div>
-            Insert Link
-          </div>
-          <div>
-            Add Comment
-          </div>
-          <div>
-            Insert Image
-          </div>
+        <section className="flex items-center gap-2 px-2 border-r-1">
+          <button>
+            <MdAddLink />
+          </button>
+          <button>
+            <MdOutlineAddComment />
+          </button>
+          <button>
+            <MdOutlineImage />
+          </button>
         </section>
-        <section>
-          <div>
-            Indent
-          </div>
-          <div>
-            Line Spacing
-          </div>
-          <div>
-            Checklist
-          </div>
-          <div>
-            Bullet Points
-          </div>
-          <div>
-            Numbered List
-          </div>
-          <div>
-            Decrease Indent
-          </div>
-          <div>
-            Increase Indent
-          </div>
-          <div>
-            Clear Formatting
-          </div>
+        <section className="flex items-center gap-2 px-2 ">
+          <button><MdFormatIndentDecrease/></button>
+          <button><MdFormatLineSpacing/></button>
+          <button><MdChecklist/></button>
+          <button><MdFormatListBulleted/></button>
+          <button><MdFormatListNumbered/></button>
+          <button><MdFormatIndentIncrease/></button>
+          <button><MdFormatIndentDecrease/></button>
+          <button><MdFormatClear/></button>
         </section>
       </div>
-      <div className="flex">
-        <section>
-          Editing Dropdown
-        </section>
-        <section>
-          Hide Menu
-        </section>
+      <div className="flex items-center gap-2">
+        <section className="border-r-1 px-2 ">Editing Dropdown</section>
+        <section>Hide Menu</section>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default SecondaryHearder;

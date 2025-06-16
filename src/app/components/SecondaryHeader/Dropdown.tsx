@@ -1,3 +1,5 @@
+import { GoChevronUp, GoChevronDown } from "react-icons/go";
+
 const Dropdown = () => {
   return (
     <>
@@ -9,9 +11,7 @@ const Dropdown = () => {
         text-sm px-1 py-1 text-center inline-flex items-center dark:hover:bg-gray-700 dark:focus:ring-blue-800" type="button"
       >
         100%
-        <svg className="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
-        </svg>
+        <GoChevronDown/>
       </button>
 
       <div id="dropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
