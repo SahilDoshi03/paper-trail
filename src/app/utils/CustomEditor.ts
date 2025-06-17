@@ -60,7 +60,11 @@ export const CustomEditor = {
     );
   },
 
-  toggleColorMark(editor: Editor, color: string) {
+  setTextColor(editor: Editor, color: string) {
     Editor.addMark(editor, "color", color);
+  },
+
+  setHighlightColor(editor: Editor, color: string) {
+    Editor.addMark(editor, "background", color);
   },
 };

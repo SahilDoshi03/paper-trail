@@ -26,6 +26,7 @@ import { useState } from "react";
 const SecondaryHearder = () => {
   const editor = useSlate();
   const [textColor, setTextColor] = useState("#ffffff");
+  const [highlightColor, setHighlightColor] = useState("");
 
   return (
     <div className="w-full h-10 flex justify-between items-center p-5 rounded-full bg-[#222222]">
@@ -74,14 +75,25 @@ const SecondaryHearder = () => {
               onChange={(e) => {
                 const color = e.target.value;
                 setTextColor(color);
-                CustomEditor.toggleColorMark(editor, color);
+                CustomEditor.setTextColor(editor, color);
               }}
               className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
               title="Text color"
             />
           </button>
-          <button className="icon-btn">
-            <MdBrush size={20} />
+          <button className="icon-btn relative p-1">
+            <MdBrush size={20} color={highlightColor} />
+            <input
+              type="color"
+              value={highlightColor}
+              onChange={(e) => {
+                const color = e.target.value;
+                setHighlightColor(color);
+                CustomEditor.setHighlightColor(editor, color);
+              }}
+              className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+              title="Text color"
+            />
           </button>
         </section>
 

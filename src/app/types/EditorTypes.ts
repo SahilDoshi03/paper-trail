@@ -4,6 +4,7 @@ type CustomText = {
   bold?: boolean;
   italic?: boolean;
   underline?: boolean;
+  background?: string;
 };
 type CustomElement = { type: "paragraph" | "code"; children: CustomText[] };
 
