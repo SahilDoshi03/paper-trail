@@ -1,11 +1,11 @@
-import EditorComponent from "./components/EditorComponent";
-import SecondaryHearder from "./components/SecondaryHeader/SecondaryHeader";
+// import SecondaryHearder from "./components/SecondaryHeader/SecondaryHeader";
+import Page from "./components/Page/Page";
 
 export default function Home() {
   return (
     <div className="">
-      <SecondaryHearder/>
-      <EditorComponent/>
+      {/* <SecondaryHearder/> */}
+      <Page/>
     </div>
   );
 }
