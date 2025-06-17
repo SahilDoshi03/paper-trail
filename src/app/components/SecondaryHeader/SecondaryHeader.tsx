@@ -1,3 +1,5 @@
+"use client";
+
 import {
   MdFormatColorText,
   MdFormatBold,
@@ -14,68 +16,104 @@ import {
   MdChecklist,
   MdFormatListBulleted,
   MdFormatListNumbered,
-  MdFormatClear
+  MdFormatClear,
 } from "react-icons/md";
 import Dropdown from "./Dropdown";
+import { CustomEditor } from "@/app/utils/CustomEditor";
+import { useSlate } from "slate-react";
 
 const SecondaryHearder = () => {
+  const editor = useSlate();
+
   return (
-    <div className="h-10 flex justify-between items-center p-5 rounded-full bg-[#222222]">
+    <div className="w-full h-10 flex justify-between items-center p-5 rounded-full bg-[#222222]">
       <div className="flex items-center">
         <section className="flex items-center gap-2 px-2 border-r-1">
-          <MdOutlinePrint />
+          <MdOutlinePrint size={20} />
           <Dropdown />
         </section>
+
         <section className="flex items-center gap-2 px-2 border-r-1">
           <div>Dropdown styles</div>
         </section>
+
         <section className="flex items-center gap-2 px-2 border-r-1">
           <div>Font</div>
         </section>
+
         <section className="flex items-center gap-2 px-2 border-r-1">
           <div>Font Size</div>
         </section>
+
         <section className="flex items-center gap-2 px-2 border-r-1">
-          <button className="w-5 h-5 white">
-            <MdFormatBold />
+          <button
+            className={`icon-btn ${CustomEditor.isBoldMarkActive(editor) ? "bg-gray-700" : ""}`}
+            onClick={() => CustomEditor.toggleBoldMark(editor)}
+          >
+            <MdFormatBold size={20} />
           </button>
-          <button className="w-5 h-5 white">
-            <MdFormatItalic />
+          <button
+            className={`icon-btn ${CustomEditor.isItalicMarkActive(editor) ? "bg-gray-700" : ""}`}
+            onClick={() => CustomEditor.toggleItalicMark(editor)}
+          >
+            <MdFormatItalic size={20} />
           </button>
-          <button className="w-5 h-5">
-            <MdFormatUnderlined />
+          <button
+            className={`icon-btn ${CustomEditor.isUnderlineMarkActive(editor) ? "bg-gray-700" : ""}`}
+            onClick={() => CustomEditor.toggleUnderlineMark(editor)}
+          >
+            <MdFormatUnderlined size={20} />
           </button>
-          <button>
-            <MdFormatColorText />
+          <button className="icon-btn">
+            <MdFormatColorText size={20} />
           </button>
-          <button>
-            <MdBrush />
+          <button className="icon-btn">
+            <MdBrush size={20} />
           </button>
         </section>
+
         <section className="flex items-center gap-2 px-2 border-r-1">
-          <button>
-            <MdAddLink />
+          <button className="icon-btn">
+            <MdAddLink size={20} />
           </button>
-          <button>
-            <MdOutlineAddComment />
+          <button className="icon-btn">
+            <MdOutlineAddComment size={20} />
           </button>
-          <button>
-            <MdOutlineImage />
+          <button className="icon-btn">
+            <MdOutlineImage size={20} />
           </button>
         </section>
-        <section className="flex items-center gap-2 px-2 ">
-          <button><MdFormatIndentDecrease/></button>
-          <button><MdFormatLineSpacing/></button>
-          <button><MdChecklist/></button>
-          <button><MdFormatListBulleted/></button>
-          <button><MdFormatListNumbered/></button>
-          <button><MdFormatIndentIncrease/></button>
-          <button><MdFormatIndentDecrease/></button>
-          <button><MdFormatClear/></button>
+
+        <section className="flex items-center gap-2 px-2">
+          <button className="icon-btn">
+            <MdFormatIndentDecrease size={20} />
+          </button>
+          <button className="icon-btn">
+            <MdFormatLineSpacing size={20} />
+          </button>
+          <button className="icon-btn">
+            <MdChecklist size={20} />
+          </button>
+          <button className="icon-btn">
+            <MdFormatListBulleted size={20} />
+          </button>
+          <button className="icon-btn">
+            <MdFormatListNumbered size={20} />
+          </button>
+          <button className="icon-btn">
+            <MdFormatIndentIncrease size={20} />
+          </button>
+          <button className="icon-btn">
+            <MdFormatIndentDecrease size={20} />
+          </button>
+          <button className="icon-btn">
+            <MdFormatClear size={20} />
+          </button>
         </section>
       </div>
+
       <div className="flex items-center gap-2">
-        <section className="border-r-1 px-2 ">Editing Dropdown</section>
+        <section className="border-r-1 px-2">Editing Dropdown</section>
         <section>Hide Menu</section>
       </div>
     </div>

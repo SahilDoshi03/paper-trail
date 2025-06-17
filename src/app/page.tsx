@@ -1,11 +1,9 @@
-import SecondaryHearder from "./components/SecondaryHeader/SecondaryHeader";
-import Page from "./components/Page/Page";
+import EditorComponent from "@/app/components/EditorComponent/EditorComponent";
 
 export default function Home() {
   return (
-    <div className="p-5">
-      <SecondaryHearder/>
-      <Page/>
+    <div className="flex flex-col gap-10 items-center justify-center p-10">
+      <EditorComponent/>
     </div>
   );
 }
