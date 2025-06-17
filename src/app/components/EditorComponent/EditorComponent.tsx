@@ -43,8 +43,9 @@ const DefaultElement = (props: RenderElementProps) => {
 };
 
 const Leaf = (props: RenderLeafProps) => {
-  const { bold, underline, italic } = props.leaf;
+  const { bold, underline, italic, color } = props.leaf;
   const style: React.CSSProperties = {
+    color: color ? color : "#ffffff",
     fontWeight: bold ? "bold" : "normal",
     fontStyle: italic ? "italic" : "normal",
     textDecoration: underline ? "underline" : "none",

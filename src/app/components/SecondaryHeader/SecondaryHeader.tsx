@@ -21,9 +21,11 @@ import {
 import Dropdown from "./Dropdown";
 import { CustomEditor } from "@/app/utils/CustomEditor";
 import { useSlate } from "slate-react";
+import { useState } from "react";
 
 const SecondaryHearder = () => {
   const editor = useSlate();
+  const [textColor, setTextColor] = useState("#ffffff");
 
   return (
     <div className="w-full h-10 flex justify-between items-center p-5 rounded-full bg-[#222222]">
@@ -64,8 +66,19 @@ const SecondaryHearder = () => {
           >
             <MdFormatUnderlined size={20} />
           </button>
-          <button className="icon-btn">
-            <MdFormatColorText size={20} />
+          <button className="icon-btn relative p-1">
+            <MdFormatColorText size={20} color={textColor} />
+            <input
+              type="color"
+              value={textColor}
+              onChange={(e) => {
+                const color = e.target.value;
+                setTextColor(color);
+                CustomEditor.toggleColorMark(editor, color);
+              }}
+              className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+              title="Text color"
+            />
           </button>
           <button className="icon-btn">
             <MdBrush size={20} />

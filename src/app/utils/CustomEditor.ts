@@ -59,5 +59,8 @@ export const CustomEditor = {
       { match: (n) => Element.isElement(n) && Editor.isBlock(editor, n) },
     );
   },
-};
 
+  toggleColorMark(editor: Editor, color: string) {
+    Editor.addMark(editor, "color", color);
+  },
+};
