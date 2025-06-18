@@ -17,17 +17,17 @@ import {
   MdFormatListBulleted,
   MdFormatListNumbered,
   MdFormatClear,
-  MdAdd,
 } from "react-icons/md";
 import { GoPlus, GoDash } from "react-icons/go";
 import Dropdown from "./Dropdown";
+import Popover from "./Popover";
 import { CustomEditor } from "@/app/utils/CustomEditor";
 import { useSlate } from "slate-react";
 import { useState } from "react";
 
 const SecondaryHearder = () => {
   const editor = useSlate();
-  const [fontSize, setFontSize] = useState(12);
+  const [fontSize, setFontSize] = useState(15);
   const [textColor, setTextColor] = useState("#ffffff");
   const [highlightColor, setHighlightColor] = useState("");
 
@@ -150,9 +150,18 @@ const SecondaryHearder = () => {
         </section>
 
         <section className="flex items-center gap-2 px-2">
-          <button className="icon-btn">
-            <MdFormatIndentDecrease size={20} />
-          </button>
+          <Popover
+            trigger={
+              <button className="icon-btn">
+                <MdFormatIndentDecrease size={20} />
+              </button>
+            }
+          >
+            <h5 className="text-sm font-medium mb-1">
+              Text Options
+            </h5>
+            <p className="text-sm">Bold, italic, underline...</p>
+          </Popover>
           <button className="icon-btn">
             <MdFormatLineSpacing size={20} />
           </button>
