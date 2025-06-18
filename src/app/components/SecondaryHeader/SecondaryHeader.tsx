@@ -17,7 +17,9 @@ import {
   MdFormatListBulleted,
   MdFormatListNumbered,
   MdFormatClear,
+  MdAdd,
 } from "react-icons/md";
+import { GoPlus, GoDash } from "react-icons/go";
 import Dropdown from "./Dropdown";
 import { CustomEditor } from "@/app/utils/CustomEditor";
 import { useSlate } from "slate-react";
@@ -25,6 +27,7 @@ import { useState } from "react";
 
 const SecondaryHearder = () => {
   const editor = useSlate();
+  const [fontSize, setFontSize] = useState(12);
   const [textColor, setTextColor] = useState("#ffffff");
   const [highlightColor, setHighlightColor] = useState("");
 
@@ -44,8 +47,45 @@ const SecondaryHearder = () => {
           <div>Font</div>
         </section>
 
-        <section className="flex items-center gap-2 px-2 border-r-1">
-          <div>Font Size</div>
+        <section className="flex items-center px-2 border-r-1">
+          <GoPlus
+            size={20}
+            className="icon-btn"
+            onClick={() => {
+              setFontSize((prev) => {
+                const newSize = prev >= 400 ? 400 : prev + 1;
+                CustomEditor.setFontSize(editor, `${newSize}px`);
+                return newSize;
+              });
+            }}
+          />
+          <input
+            className="max-w-[30px] text-center appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            type="number"
+            value={fontSize}
+            onChange={(e) => {
+              let value = parseInt(e.target.value, 10);
+              if (value < 1) {
+                value = 1;
+              }
+              if (value > 400) {
+                value = 400;
+              }
+              setFontSize(value);
+              CustomEditor.setFontSize(editor, `${value}px`);
+            }}
+          />
+          <GoDash
+            size={20}
+            className="icon-btn"
+            onClick={() => {
+              setFontSize((prev) => {
+                const newSize = prev <= 1 ? 1 : prev - 1;
+                CustomEditor.setFontSize(editor, `${newSize}px`);
+                return newSize;
+              });
+            }}
+          />
         </section>
 
         <section className="flex items-center gap-2 px-2 border-r-1">

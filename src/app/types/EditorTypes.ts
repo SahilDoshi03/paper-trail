@@ -1,5 +1,6 @@
 type CustomText = {
   text: string;
+  fontSize?: string;
   color?: string;
   bold?: boolean;
   italic?: boolean;

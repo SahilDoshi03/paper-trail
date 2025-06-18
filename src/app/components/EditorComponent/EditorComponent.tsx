@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createEditor } from "slate";
 import {
   Slate,
@@ -43,13 +43,14 @@ const DefaultElement = (props: RenderElementProps) => {
 };
 
 const Leaf = (props: RenderLeafProps) => {
-  const { bold, underline, italic, color, background } = props.leaf;
+  const { bold, underline, italic, color, background, fontSize } = props.leaf;
   const style: React.CSSProperties = {
     color: color ? color : "#ffffff",
+    fontSize: fontSize? fontSize: "12px",
     fontWeight: bold ? "bold" : "normal",
     fontStyle: italic ? "italic" : "normal",
     textDecoration: underline ? "underline" : "none",
-    backgroundColor: background ? background: "none"
+    backgroundColor: background ? background : "none",
   };
   return (
     <span {...props.attributes} style={style}>
@@ -71,23 +72,28 @@ const renderLeaf = (props: RenderLeafProps) => {
   return <Leaf {...props} />;
 };
 
-
-const EditorComponent = ({ ref }: any) => {
+const EditorComponent = () => {
   const [editor] = useState(() => withReact(createEditor()));
+  const editorRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    ReactEditor.focus(editor)
-  },[])
+    ReactEditor.focus(editor);
+  }, []);
 
   return (
     <Slate editor={editor} initialValue={initialValue}>
-      <SecondaryHeader/>
+      <SecondaryHeader />
       <Editable
         className="h-[1123px] w-[794px] bg-[#222222] focus-within:outline-none"
-        ref={ref}
+        ref={editorRef}
         renderElement={renderElement}
         renderLeaf={renderLeaf}
-        onBlur={e => e.target.focus()}
+        onBlur={(e) => {
+          const related = e.relatedTarget;
+          if (related?.tagName !== "INPUT") {
+            editorRef.current?.focus();
+          }
+        }}
         onKeyDown={(event) => {
           if (!event.ctrlKey) {
             return;

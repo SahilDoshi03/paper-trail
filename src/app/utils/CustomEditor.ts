@@ -67,4 +67,8 @@ export const CustomEditor = {
   setHighlightColor(editor: Editor, color: string) {
     Editor.addMark(editor, "background", color);
   },
+
+  setFontSize(editor: Editor, fontSize: string) {
+    Editor.addMark(editor, "fontSize", fontSize);
+  },
 };
