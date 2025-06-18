@@ -24,6 +24,7 @@ import Popover from "./Popover";
 import { CustomEditor } from "@/app/utils/CustomEditor";
 import { useSlate } from "slate-react";
 import { useState } from "react";
+import AlignPopover from "./AlignPopover";
 
 const SecondaryHearder = () => {
   const editor = useSlate();
@@ -157,10 +158,7 @@ const SecondaryHearder = () => {
               </button>
             }
           >
-            <h5 className="text-sm font-medium mb-1">
-              Text Options
-            </h5>
-            <p className="text-sm">Bold, italic, underline...</p>
+            <AlignPopover/>
           </Popover>
           <button className="icon-btn">
             <MdFormatLineSpacing size={20} />

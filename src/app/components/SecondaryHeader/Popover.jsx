@@ -21,8 +21,8 @@ export default function Popover({ trigger, children }) {
       </div>
 
       {open && (
-        <div className="absolute top-full mb-2 left-1/2 -translate-x-1/2 z-20 min-w-[200px] p-2 bg-[#333333] 
-          text-sm text-white rounded-sm shadow-md transition-all duration-200">
+        <div className="absolute top-full left-1/2 translate-x-[-10px] z-20 p-1 bg-[#333333] 
+          text-white rounded-sm shadow-md transition-all duration-200">
           {children}
         </div>
       )}
