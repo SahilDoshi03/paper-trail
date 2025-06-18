@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createEditor } from "slate";
 import {
   Slate,
@@ -71,8 +71,13 @@ const renderLeaf = (props: RenderLeafProps) => {
   return <Leaf {...props} />;
 };
 
+
 const EditorComponent = ({ ref }: any) => {
   const [editor] = useState(() => withReact(createEditor()));
+
+  useEffect(() => {
+    ReactEditor.focus(editor)
+  },[])
 
   return (
     <Slate editor={editor} initialValue={initialValue}>
@@ -82,6 +87,7 @@ const EditorComponent = ({ ref }: any) => {
         ref={ref}
         renderElement={renderElement}
         renderLeaf={renderLeaf}
+        onBlur={e => e.target.focus()}
         onKeyDown={(event) => {
           if (!event.ctrlKey) {
             return;
