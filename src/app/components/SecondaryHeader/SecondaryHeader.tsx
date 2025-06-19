@@ -16,6 +16,10 @@ import {
   MdChecklist,
   MdFormatListBulleted,
   MdFormatListNumbered,
+  MdOutlineFormatAlignLeft,
+  MdOutlineFormatAlignCenter,
+  MdOutlineFormatAlignRight,
+  MdOutlineFormatAlignJustify,
   MdFormatClear,
 } from "react-icons/md";
 import { GoPlus, GoDash } from "react-icons/go";
@@ -26,11 +30,21 @@ import { useSlate } from "slate-react";
 import { useState } from "react";
 import AlignPopover from "./AlignPopover";
 
+const alignmentIcons = {
+  left: MdOutlineFormatAlignLeft,
+  center: MdOutlineFormatAlignCenter,
+  right: MdOutlineFormatAlignRight,
+  justify: MdOutlineFormatAlignJustify,
+};
+
 const SecondaryHearder = () => {
   const editor = useSlate();
-  const [fontSize, setFontSize] = useState(15);
+  const [fontSize, setFontSize] = useState(16);
   const [textColor, setTextColor] = useState("#ffffff");
   const [highlightColor, setHighlightColor] = useState("");
+
+  const currentAlign = CustomEditor.getTextAlign(editor);
+  const CurrentAlignIcon = alignmentIcons[currentAlign];
 
   return (
     <div className="w-full h-10 flex justify-between items-center p-5 rounded-full bg-[#222222]">
@@ -154,12 +168,13 @@ const SecondaryHearder = () => {
           <Popover
             trigger={
               <button className="icon-btn">
-                <MdFormatIndentDecrease size={20} />
+                <CurrentAlignIcon size={20} />
               </button>
             }
           >
-            <AlignPopover/>
+            <AlignPopover />
           </Popover>
+
           <button className="icon-btn">
             <MdFormatLineSpacing size={20} />
           </button>

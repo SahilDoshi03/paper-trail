@@ -1,4 +1,5 @@
 import { Editor, Transforms, Element } from "slate";
+import { TextAlign } from "@/app/types/EditorTypes";
 
 export const CustomEditor = {
   isBoldMarkActive(editor: Editor) {
@@ -70,5 +71,32 @@ export const CustomEditor = {
 
   setFontSize(editor: Editor, fontSize: string) {
     Editor.addMark(editor, "fontSize", fontSize);
+  },
+
+  setTextAlign(editor: Editor, textAlign: TextAlign) {
+    Transforms.setNodes(
+      editor,
+      { textAlign: textAlign },
+      {
+        match: (n) => Element.isElement(n),
+        mode: "lowest",
+      },
+    );
+  },
+
+  getTextAlign(editor: Editor): TextAlign {
+    const [match] = Editor.nodes(editor, {
+      match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
+      mode: "lowest",
+    });
+
+    if (match) {
+      const [node] = match;
+      if ("textAlign" in node && typeof node.textAlign === "string") {
+        return node.textAlign as TextAlign;
+      }
+    }
+
+    return "left";
   },
 };

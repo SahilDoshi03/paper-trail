@@ -26,6 +26,7 @@ declare module "slate" {
 const initialValue: Descendant[] = [
   {
     type: "paragraph",
+    textAlign: "left",
     children: [{ text: "" }],
   },
 ];
@@ -39,19 +40,39 @@ const CodeElement = (props: RenderElementProps) => {
 };
 
 const DefaultElement = (props: RenderElementProps) => {
-  return <p {...props.attributes}>{props.children}</p>;
+
+  const { textAlign } = props.element;
+
+  const style: React.CSSProperties = {
+    textAlign: textAlign ?? "left",
+  };
+
+  return (
+    <p {...props.attributes} style={style}>
+      {props.children}
+    </p>
+  );
 };
 
 const Leaf = (props: RenderLeafProps) => {
-  const { bold, underline, italic, color, background, fontSize } = props.leaf;
+  const {
+    bold,
+    underline,
+    italic,
+    color,
+    backgroundColor,
+    fontSize,
+  } = props.leaf;
+
   const style: React.CSSProperties = {
     color: color ? color : "#ffffff",
-    fontSize: fontSize? fontSize: "15px",
-    fontWeight: bold ? "bold" : "normal",
-    fontStyle: italic ? "italic" : "normal",
-    textDecoration: underline ? "underline" : "none",
-    backgroundColor: background ? background : "none",
+    fontSize: fontSize ? fontSize : "unset",
+    fontWeight: bold ? "bold" : "unset",
+    fontStyle: italic ? "italic" : "unset",
+    textDecoration: underline ? "underline" : "unset",
+    backgroundColor: backgroundColor ?? "unset",
   };
+
   return (
     <span {...props.attributes} style={style}>
       {props.children}
@@ -74,7 +95,7 @@ const renderLeaf = (props: RenderLeafProps) => {
 
 const EditorComponent = () => {
   const [editor] = useState(() => withReact(createEditor()));
-  const editorRef = useRef<HTMLDivElement | null>(null)
+  const editorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     ReactEditor.focus(editor);

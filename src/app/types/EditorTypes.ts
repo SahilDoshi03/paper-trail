@@ -1,3 +1,5 @@
+type TextAlign = "left" | "center" | "right" | "justify";
+
 type CustomText = {
   text: string;
   fontSize?: string;
@@ -5,9 +7,14 @@ type CustomText = {
   bold?: boolean;
   italic?: boolean;
   underline?: boolean;
-  background?: string;
+  backgroundColor?: string;
+  textAlign?: TextAlign;
 };
 
-type CustomElement = { type: "paragraph" | "code"; children: CustomText[] };
+type CustomElement = {
+  type: "paragraph" | "code";
+  textAlign?: TextAlign;
+  children: CustomText[];
+};
 
-export type { CustomText, CustomElement };
+export type { CustomText, CustomElement, TextAlign };
