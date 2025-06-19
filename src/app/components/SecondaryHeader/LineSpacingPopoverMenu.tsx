@@ -33,7 +33,7 @@ const LineSpacingPopoverMenu = () => {
               {val}
             </li>
           ))}
-          <li className="mt-2">
+          <li className="mb-1">
             <div className="text-xs font-medium">Custom</div>
             <div className="flex items-center justify-center gap-1 px-2 mt-1">
               <GoPlus
