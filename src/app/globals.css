@@ -106,4 +106,3 @@ body {
 .icon-btn {
   @apply p-[2px] flex items-center justify-center text-white cursor-pointer hover:bg-gray-700 rounded;
 }
-

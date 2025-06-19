@@ -48,7 +48,7 @@ const AlignPopover = () => {
   }, [editor.selection]);
 
   return (
-    <div className="flex gap-1">
+    <div className="flex gap-1 p-1">
       {alignments.map(({ value, icon: Icon }) => (
         <button
           key={value}

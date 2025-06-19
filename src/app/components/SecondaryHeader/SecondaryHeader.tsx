@@ -29,6 +29,7 @@ import { CustomEditor } from "@/app/utils/CustomEditor";
 import { useSlate } from "slate-react";
 import { useState } from "react";
 import AlignPopover from "./AlignPopover";
+import LineSpacingPopoverMenu from "./LineSpacingPopoverMenu"
 
 const alignmentIcons = {
   left: MdOutlineFormatAlignLeft,
@@ -62,20 +63,18 @@ const SecondaryHearder = () => {
           <div>Font</div>
         </section>
 
-        <section className="flex items-center px-2 border-r-1">
+        <section className="flex items-center gap-1 px-2 border-r-1">
           <GoPlus
             size={20}
             className="icon-btn"
             onClick={() => {
-              setFontSize((prev) => {
-                const newSize = prev >= 400 ? 400 : prev + 1;
-                CustomEditor.setFontSize(editor, `${newSize}px`);
-                return newSize;
-              });
+              const newSize = Math.min(400, fontSize + 1);
+              setFontSize(newSize);
+              CustomEditor.setFontSize(editor, `${newSize}px`);
             }}
           />
           <input
-            className="max-w-[30px] text-center appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            className="max-w-[30px] text-center border-1 p-1 focus:border-1 focus:outline-none rounded-sm appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             type="number"
             value={fontSize}
             onChange={(e) => {
@@ -94,11 +93,9 @@ const SecondaryHearder = () => {
             size={20}
             className="icon-btn"
             onClick={() => {
-              setFontSize((prev) => {
-                const newSize = prev <= 1 ? 1 : prev - 1;
-                CustomEditor.setFontSize(editor, `${newSize}px`);
-                return newSize;
-              });
+              const newSize = Math.max(1, fontSize - 1);
+              setFontSize(newSize);
+              CustomEditor.setFontSize(editor, `${newSize}px`);
             }}
           />
         </section>
@@ -174,10 +171,16 @@ const SecondaryHearder = () => {
           >
             <AlignPopover />
           </Popover>
+          <Popover
+            trigger={
+              <button className="icon-btn">
+                <MdFormatLineSpacing size={20} />
+              </button>
+            }
+          >
+            <LineSpacingPopoverMenu/>
+          </Popover>
 
-          <button className="icon-btn">
-            <MdFormatLineSpacing size={20} />
-          </button>
           <button className="icon-btn">
             <MdChecklist size={20} />
           </button>

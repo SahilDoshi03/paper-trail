@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { createEditor } from "slate";
 import {
   Slate,
@@ -40,11 +40,13 @@ const CodeElement = (props: RenderElementProps) => {
 };
 
 const DefaultElement = (props: RenderElementProps) => {
-
-  const { textAlign } = props.element;
+  const { textAlign, lineHeight, paraSpaceBefore, paraSpaceAfter } = props.element;
 
   const style: React.CSSProperties = {
     textAlign: textAlign ?? "left",
+    lineHeight: lineHeight ?? 1.5,
+    marginTop: paraSpaceBefore ? `${paraSpaceBefore}px` : "0px",
+    marginBottom: paraSpaceAfter ? `${paraSpaceAfter}px` : "0px",
   };
 
   return (
@@ -80,25 +82,25 @@ const Leaf = (props: RenderLeafProps) => {
   );
 };
 
-const renderElement = (props: RenderElementProps) => {
-  switch (props.element.type) {
-    case "code":
-      return <CodeElement {...props} />;
-    default:
-      return <DefaultElement {...props} />;
-  }
-};
-
-const renderLeaf = (props: RenderLeafProps) => {
-  return <Leaf {...props} />;
-};
-
 const EditorComponent = () => {
   const [editor] = useState(() => withReact(createEditor()));
   const editorRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     ReactEditor.focus(editor);
+  }, []);
+
+  const renderElement = useCallback((props: RenderElementProps) => {
+    switch (props.element.type) {
+      case "code":
+        return <CodeElement {...props} />;
+      default:
+        return <DefaultElement {...props} />;
+    }
+  }, []);
+
+  const renderLeaf = useCallback((props: RenderLeafProps) => {
+    return <Leaf {...props} />;
   }, []);
 
   return (

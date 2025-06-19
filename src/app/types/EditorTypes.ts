@@ -9,11 +9,15 @@ type CustomText = {
   underline?: boolean;
   backgroundColor?: string;
   textAlign?: TextAlign;
+  lineHeight?: number;
 };
 
 type CustomElement = {
   type: "paragraph" | "code";
   textAlign?: TextAlign;
+  lineHeight?: number;
+  paraSpaceBefore?: number;
+  paraSpaceAfter?: number;
   children: CustomText[];
 };
 

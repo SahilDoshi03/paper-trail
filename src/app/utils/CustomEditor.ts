@@ -83,7 +83,6 @@ export const CustomEditor = {
       },
     );
   },
-
   getTextAlign(editor: Editor): TextAlign {
     const [match] = Editor.nodes(editor, {
       match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
@@ -98,5 +97,84 @@ export const CustomEditor = {
     }
 
     return "left";
+  },
+  setLineHeight(editor: Editor, lineHeight: number) {
+    Transforms.setNodes(
+      editor,
+      { lineHeight: lineHeight },
+      {
+        match: (n) => Element.isElement(n),
+        mode: "lowest",
+      },
+    );
+  },
+
+  getLineHeight(editor: Editor): number{
+    const [match] = Editor.nodes(editor, {
+      match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
+      mode: "lowest",
+    });
+
+    if (match) {
+      const [node] = match;
+      if ("lineHeight" in node && typeof node.lineHeight === "number") {
+        return node.lineHeight;
+      }
+    }
+
+    return 1.5;
+  },
+  setParaSpaceBefore(editor: Editor, spacing: number) {
+    Transforms.setNodes(
+      editor,
+      { paraSpaceBefore: spacing },
+      {
+        match: (n) => Element.isElement(n),
+        mode: "lowest",
+      },
+    );
+  },
+
+  getParaSpaceBefore(editor: Editor): number {
+    const [match] = Editor.nodes(editor, {
+      match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
+      mode: "lowest",
+    });
+
+    if (match) {
+      const [node] = match;
+      if ("marginTop" in node && typeof node.marginTop === "number") {
+        return node.marginTop;
+      }
+    }
+
+    return 0;
+  },
+
+  setParaSpaceAfter(editor: Editor, spacing: number) {
+    Transforms.setNodes(
+      editor,
+      { paraSpaceAfter: spacing },
+      {
+        match: (n) => Element.isElement(n),
+        mode: "lowest",
+      },
+    );
+  },
+
+  getParaSpaceAfter(editor: Editor): number {
+    const [match] = Editor.nodes(editor, {
+      match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
+      mode: "lowest",
+    });
+
+    if (match) {
+      const [node] = match;
+      if ("marginBottom" in node && typeof node.marginBottom === "number") {
+        return node.marginBottom;
+      }
+    }
+
+    return 0;
   },
 };
