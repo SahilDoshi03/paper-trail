@@ -1,4 +1,4 @@
-import { GoChevronUp, GoChevronDown } from "react-icons/go";
+import { GoChevronDown } from "react-icons/go";
 
 const Dropdown = () => {
   return (

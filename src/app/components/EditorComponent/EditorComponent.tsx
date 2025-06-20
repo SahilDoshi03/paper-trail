@@ -88,7 +88,7 @@ const EditorComponent = () => {
 
   useEffect(() => {
     ReactEditor.focus(editor);
-  }, []);
+  }, [editor]);
 
   const renderElement = useCallback((props: RenderElementProps) => {
     switch (props.element.type) {

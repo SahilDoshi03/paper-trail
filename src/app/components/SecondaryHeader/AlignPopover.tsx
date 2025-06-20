@@ -45,7 +45,7 @@ const AlignPopover = () => {
         setSelected(node.textAlign);
       }
     }
-  }, [editor.selection]);
+  }, [editor, editor.selection]);
 
   return (
     <div className="flex gap-1 p-1">

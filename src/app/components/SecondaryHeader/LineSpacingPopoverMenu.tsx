@@ -99,7 +99,7 @@ const LineSpacingPopoverMenu = () => {
               type="number"
               value={paraSpaceBefore}
               onChange={(e) => {
-                let value = Math.min(
+                const value = Math.min(
                   Math.max(parseInt(e.target.value, 10), 0),
                   250,
                 );
@@ -137,7 +137,7 @@ const LineSpacingPopoverMenu = () => {
               type="number"
               value={paraSpaceAfter}
               onChange={(e) => {
-                let value = Math.min(
+                const value = Math.min(
                   Math.max(parseInt(e.target.value, 10), 0),
                   250,
                 );
