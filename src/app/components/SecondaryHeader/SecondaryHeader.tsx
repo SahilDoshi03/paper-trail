@@ -26,7 +26,7 @@ import { GoPlus, GoDash } from "react-icons/go";
 import Popover from "@/app/components/common/Popover";
 import { CustomEditor } from "@/app/utils/CustomEditor";
 import { useSlate } from "slate-react";
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import AlignPopover from "./AlignPopover";
 import LineSpacingPopoverMenu from "./LineSpacingPopoverMenu"
 import FontsPopover from "./FontsPopover";
@@ -38,12 +38,17 @@ const alignmentIcons = {
   justify: MdOutlineFormatAlignJustify,
 };
 
-const SecondaryHearder = () => {
-  const editor = useSlate();
-  const [fontSize, setFontSize] = useState(16);
-  const [textColor, setTextColor] = useState("#ffffff");
-  const [highlightColor, setHighlightColor] = useState("");
+type SecondaryHeaderProps = {
+  fontSize: number,
+  setFontSize: Dispatch<SetStateAction<number>>,
+  textColor: string,
+  setTextColor: Dispatch<SetStateAction<string>>,
+  highlightColor: string,
+  setHighlightColor: Dispatch<SetStateAction<string>>
+}
 
+const SecondaryHearder = ({ fontSize, setFontSize, textColor, setTextColor, highlightColor, setHighlightColor }: SecondaryHeaderProps) => {
+  const editor = useSlate();
   const currentAlign = CustomEditor.getTextAlign(editor);
   const CurrentAlignIcon = alignmentIcons[currentAlign];
 
@@ -74,7 +79,7 @@ const SecondaryHearder = () => {
               </button>
             }
           >
-            <FontsPopover/>
+            <FontsPopover />
           </Popover>
         </section>
 

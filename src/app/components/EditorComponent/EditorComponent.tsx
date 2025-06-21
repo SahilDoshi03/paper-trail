@@ -23,14 +23,6 @@ declare module "slate" {
   }
 }
 
-const initialValue: Descendant[] = [
-  {
-    type: "paragraph",
-    textAlign: "left",
-    children: [{ text: "" }],
-  },
-];
-
 const CodeElement = (props: RenderElementProps) => {
   return (
     <pre {...props.attributes}>
@@ -43,10 +35,10 @@ const DefaultElement = (props: RenderElementProps) => {
   const { textAlign, lineHeight, paraSpaceBefore, paraSpaceAfter } = props.element;
 
   const style: React.CSSProperties = {
-    textAlign: textAlign ?? "left",
-    lineHeight: lineHeight ?? 1.5,
-    marginTop: paraSpaceBefore ? `${paraSpaceBefore}px` : "0px",
-    marginBottom: paraSpaceAfter ? `${paraSpaceAfter}px` : "0px",
+    textAlign: textAlign,
+    lineHeight: lineHeight,
+    marginTop: paraSpaceBefore,
+    marginBottom: paraSpaceAfter
   };
 
   return (
@@ -67,12 +59,12 @@ const Leaf = (props: RenderLeafProps) => {
   } = props.leaf;
 
   const style: React.CSSProperties = {
-    color: color ? color : "#ffffff",
-    fontSize: fontSize ? fontSize : "unset",
+    color,
+    fontSize,
     fontWeight: bold ? "bold" : "unset",
-    fontStyle: italic ? "italic" : "unset",
+    fontStyle: italic ? "italic" : "italic",
     textDecoration: underline ? "underline" : "unset",
-    backgroundColor: backgroundColor ?? "unset",
+    backgroundColor: backgroundColor,
   };
 
   return (
@@ -83,9 +75,32 @@ const Leaf = (props: RenderLeafProps) => {
 };
 
 const EditorComponent = () => {
+  const [fontSize, setFontSize] = useState(16);
+  const [textColor, setTextColor] = useState("#ffffff");
+  const [highlightColor, setHighlightColor] = useState("unset");
   const [editor] = useState(() => withReact(createEditor()));
   const editorRef = useRef<HTMLDivElement | null>(null);
 
+  const initialValue: Descendant[] = [
+    {
+      type: "paragraph",
+      textAlign: "left",
+      fontFamily: "Arial",
+      paraSpaceAfter: 0,
+      paraSpaceBefore: 0,
+      lineHeight: 1.2,
+      children: [{
+        text: "",
+        textAlign: "left",
+        color: textColor,
+        fontSize: `${fontSize}px`,
+        bold: false,
+        italic: false,
+        underline: false,
+        backgroundColor: highlightColor,
+      }],
+    },
+  ];
   useEffect(() => {
     ReactEditor.focus(editor);
   }, [editor]);
@@ -105,7 +120,14 @@ const EditorComponent = () => {
 
   return (
     <Slate editor={editor} initialValue={initialValue}>
-      <SecondaryHeader />
+      <SecondaryHeader
+        fontSize={fontSize}
+        setFontSize={setFontSize}
+        textColor={textColor}
+        setTextColor={setTextColor}
+        highlightColor={highlightColor}
+        setHighlightColor={setHighlightColor}
+      />
       <Editable
         className="h-[1123px] w-[794px] border-1 border-[#666666] focus-within:outline-none"
         ref={editorRef}
