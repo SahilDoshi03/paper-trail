@@ -13,7 +13,7 @@ import { BaseEditor, Descendant } from "slate";
 import { ReactEditor } from "slate-react";
 import SecondaryHeader from "@/app/components/SecondaryHeader/SecondaryHeader";
 import { CustomEditor } from "@/app/utils/CustomEditor";
-import type { CustomElement, CustomText } from "@/app/types/EditorTypes";
+import type { CustomElement, CustomText } from "@/app/types/Editor";
 
 declare module "slate" {
   interface CustomTypes {
@@ -107,7 +107,7 @@ const EditorComponent = () => {
     <Slate editor={editor} initialValue={initialValue}>
       <SecondaryHeader />
       <Editable
-        className="h-[1123px] w-[794px] bg-[#222222] focus-within:outline-none"
+        className="h-[1123px] w-[794px] border-1 border-[#666666] focus-within:outline-none"
         ref={editorRef}
         renderElement={renderElement}
         renderLeaf={renderLeaf}

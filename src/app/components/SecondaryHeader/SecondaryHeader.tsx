@@ -23,13 +23,13 @@ import {
   MdFormatClear,
 } from "react-icons/md";
 import { GoPlus, GoDash } from "react-icons/go";
-import Dropdown from "./Dropdown";
-import Popover from "./Popover";
+import Popover from "@/app/components/common/Popover";
 import { CustomEditor } from "@/app/utils/CustomEditor";
 import { useSlate } from "slate-react";
 import { useState } from "react";
 import AlignPopover from "./AlignPopover";
 import LineSpacingPopoverMenu from "./LineSpacingPopoverMenu"
+import FontsPopover from "./FontsPopover";
 
 const alignmentIcons = {
   left: MdOutlineFormatAlignLeft,
@@ -52,7 +52,9 @@ const SecondaryHearder = () => {
       <div className="flex items-center">
         <section className="flex items-center gap-2 px-2 border-r-1">
           <MdOutlinePrint size={20} />
-          <Dropdown />
+          <div>
+            Zoom
+          </div>
         </section>
 
         <section className="flex items-center gap-2 px-2 border-r-1">
@@ -60,7 +62,20 @@ const SecondaryHearder = () => {
         </section>
 
         <section className="flex items-center gap-2 px-2 border-r-1">
-          <div>Font</div>
+          <Popover
+            trigger={
+              <button
+                data-modal-target="default-modal"
+                data-modal-toggle="default-modal"
+                className="icon-btn"
+                type="button"
+              >
+                Font
+              </button>
+            }
+          >
+            <FontsPopover/>
+          </Popover>
         </section>
 
         <section className="flex items-center gap-1 px-2 border-r-1">
@@ -178,7 +193,7 @@ const SecondaryHearder = () => {
               </button>
             }
           >
-            <LineSpacingPopoverMenu/>
+            <LineSpacingPopoverMenu />
           </Popover>
 
           <button className="icon-btn">
