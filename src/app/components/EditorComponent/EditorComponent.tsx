@@ -62,7 +62,7 @@ const Leaf = (props: RenderLeafProps) => {
     color,
     fontSize,
     fontWeight: bold ? "bold" : "unset",
-    fontStyle: italic ? "italic" : "italic",
+    fontStyle: italic ? "italic" : "unset",
     textDecoration: underline ? "underline" : "unset",
     backgroundColor: backgroundColor,
   };
