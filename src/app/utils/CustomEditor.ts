@@ -109,7 +109,7 @@ export const CustomEditor = {
     );
   },
 
-  getLineHeight(editor: Editor): number{
+  getLineHeight(editor: Editor): number {
     const [match] = Editor.nodes(editor, {
       match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
       mode: "lowest",
@@ -187,5 +187,21 @@ export const CustomEditor = {
         mode: "lowest",
       },
     );
+  },
+
+  getFontFamily(editor: Editor): string {
+    const [match] = Editor.nodes(editor, {
+      match: (n) => Element.isElement(n) && Editor.isBlock(editor, n),
+      mode: "lowest",
+    });
+
+    if (match) {
+      const [node] = match;
+      if ("fontFamily" in node && typeof node.fontFamily === "string") {
+        return node.fontFamily;
+      }
+    }
+
+    return "";
   },
 };

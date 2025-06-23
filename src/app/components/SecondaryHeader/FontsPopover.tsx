@@ -28,7 +28,7 @@ const FontsPopover = ({
         {fonts.map((font) => (
           <li
             key={font}
-            className="p-2 hover:bg-[#222222] cursor-pointer"
+            className={`p-2 hover:bg-[#222222] cursor-pointer ${CustomEditor.getFontFamily(editor) === font ? "bg-[#222222]" : ""}`}
             style={{ fontFamily: font }}
             onClick={() => {
               setFontFamily(font);
@@ -45,12 +45,7 @@ const FontsPopover = ({
           title={"Fonts"}
           open={customModalOpen}
           onClose={() => setCustomModalOpen(false)}
-          children={
-            <CustomFontSelector
-              setFonts={setFonts}
-              setFontFamily={setFontFamily}
-            />
-          }
+          children={<CustomFontSelector setFontFamily={setFontFamily} />}
         />
       )}
     </>
