@@ -26,7 +26,6 @@ import { GoPlus, GoDash } from "react-icons/go";
 import Popover from "@/app/components/common/Popover";
 import { CustomEditor } from "@/app/utils/CustomEditor";
 import { useSlate } from "slate-react";
-import { Dispatch, SetStateAction } from "react";
 import AlignPopover from "./AlignPopover";
 import LineSpacingPopoverMenu from "./LineSpacingPopoverMenu";
 import FontsPopover from "./FontsPopover";
@@ -38,27 +37,7 @@ const alignmentIcons = {
   justify: MdOutlineFormatAlignJustify,
 };
 
-type SecondaryHeaderProps = {
-  fontSize: number;
-  setFontSize: Dispatch<SetStateAction<number>>;
-  textColor: string;
-  setTextColor: Dispatch<SetStateAction<string>>;
-  highlightColor: string;
-  setHighlightColor: Dispatch<SetStateAction<string>>;
-  fontFamily: string;
-  setFontFamily: Dispatch<SetStateAction<string>>;
-};
-
-const SecondaryHearder = ({
-  fontSize,
-  setFontSize,
-  textColor,
-  setTextColor,
-  highlightColor,
-  setHighlightColor,
-  fontFamily,
-  setFontFamily,
-}: SecondaryHeaderProps) => {
+const SecondaryHearder = () => {
   const editor = useSlate();
   const currentAlign = CustomEditor.getTextAlign(editor);
   const CurrentAlignIcon = alignmentIcons[currentAlign];
@@ -84,11 +63,11 @@ const SecondaryHearder = ({
                 className="icon-btn"
                 type="button"
               >
-                {fontFamily}
+                {CustomEditor.getFontFamily(editor)}
               </button>
             }
           >
-            <FontsPopover setFontFamily={setFontFamily} />
+            <FontsPopover />
           </Popover>
         </section>
 
@@ -97,15 +76,17 @@ const SecondaryHearder = ({
             size={20}
             className="icon-btn"
             onClick={() => {
-              const newSize = Math.min(400, fontSize + 1);
-              setFontSize(newSize);
-              CustomEditor.setFontSize(editor, `${newSize}px`);
+              const newSize = Math.min(
+                400,
+                CustomEditor.getFontSize(editor) + 1,
+              );
+              CustomEditor.setFontSize(editor, newSize);
             }}
           />
           <input
             className="max-w-[30px] text-center border-1 p-1 focus:border-1 focus:outline-none rounded-sm appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             type="number"
-            value={fontSize}
+            value={CustomEditor.getFontSize(editor)}
             onChange={(e) => {
               let value = parseInt(e.target.value, 10);
               if (value < 1) {
@@ -114,17 +95,15 @@ const SecondaryHearder = ({
               if (value > 400) {
                 value = 400;
               }
-              setFontSize(value);
-              CustomEditor.setFontSize(editor, `${value}px`);
+              CustomEditor.setFontSize(editor, value);
             }}
           />
           <GoDash
             size={20}
             className="icon-btn"
             onClick={() => {
-              const newSize = Math.max(1, fontSize - 1);
-              setFontSize(newSize);
-              CustomEditor.setFontSize(editor, `${newSize}px`);
+              const newSize = Math.max(1, CustomEditor.getFontSize(editor) - 1);
+              CustomEditor.setFontSize(editor, newSize);
             }}
           />
         </section>
@@ -149,13 +128,15 @@ const SecondaryHearder = ({
             <MdFormatUnderlined size={20} />
           </button>
           <button className="icon-btn relative p-1">
-            <MdFormatColorText size={20} color={textColor} />
+            <MdFormatColorText
+              size={20}
+              color={CustomEditor.getTextColor(editor)}
+            />
             <input
               type="color"
-              value={textColor}
+              value={CustomEditor.getTextColor(editor)}
               onChange={(e) => {
                 const color = e.target.value;
-                setTextColor(color);
                 CustomEditor.setTextColor(editor, color);
               }}
               className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
@@ -163,13 +144,12 @@ const SecondaryHearder = ({
             />
           </button>
           <button className="icon-btn relative p-1">
-            <MdBrush size={20} color={highlightColor} />
+            <MdBrush size={20} color={CustomEditor.getHighlightColor(editor)} />
             <input
               type="color"
-              value={highlightColor}
+              value={CustomEditor.getHighlightColor(editor)}
               onChange={(e) => {
                 const color = e.target.value;
-                setHighlightColor(color);
                 CustomEditor.setHighlightColor(editor, color);
               }}
               className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"

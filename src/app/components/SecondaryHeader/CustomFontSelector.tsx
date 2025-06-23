@@ -59,11 +59,7 @@ const SUBSET_OPTIONS = {
   vietnamese: "Vietnamese",
 } as const;
 
-const CustomFontSelector = ({
-  setFontFamily,
-}: {
-  setFontFamily: Dispatch<SetStateAction<string>>;
-}) => {
+const CustomFontSelector = () => {
   const editor = useSlate();
   const itemRefs = useRef<Record<string, HTMLLIElement | null>>({});
 
@@ -240,7 +236,6 @@ const CustomFontSelector = ({
                 style={{ fontFamily: font.family }}
                 onClick={() => {
                   loadGoogleFont(font.family);
-                  setFontFamily(font.family);
                   CustomEditor.setFontFamily(editor, font.family);
                 }}
               >

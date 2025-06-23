@@ -65,12 +65,24 @@ export const CustomEditor = {
     Editor.addMark(editor, "color", color);
   },
 
+  getTextColor(editor: Editor): string {
+    return Editor.marks(editor)?.color || "#ffffff";
+  },
+
   setHighlightColor(editor: Editor, color: string) {
     Editor.addMark(editor, "backgroundColor", color);
   },
 
-  setFontSize(editor: Editor, fontSize: string) {
+  getHighlightColor(editor: Editor): string {
+    return Editor.marks(editor)?.backgroundColor || "transparent";
+  },
+
+  setFontSize(editor: Editor, fontSize: number) {
     Editor.addMark(editor, "fontSize", fontSize);
+  },
+
+  getFontSize(editor: Editor): number {
+    return Editor.marks(editor)?.fontSize || 16;
   },
 
   setTextAlign(editor: Editor, textAlign: TextAlign) {

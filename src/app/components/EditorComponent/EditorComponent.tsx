@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { createEditor } from "slate";
 import {
   Slate,
@@ -32,14 +38,15 @@ const CodeElement = (props: RenderElementProps) => {
 };
 
 const DefaultElement = (props: RenderElementProps) => {
-  const { textAlign, lineHeight, paraSpaceBefore, paraSpaceAfter, fontFamily } = props.element;
+  const { textAlign, lineHeight, paraSpaceBefore, paraSpaceAfter, fontFamily } =
+    props.element;
 
   const style: React.CSSProperties = {
     textAlign,
     lineHeight,
     marginTop: paraSpaceBefore,
     marginBottom: paraSpaceAfter,
-    fontFamily
+    fontFamily,
   };
 
   return (
@@ -50,18 +57,12 @@ const DefaultElement = (props: RenderElementProps) => {
 };
 
 const Leaf = (props: RenderLeafProps) => {
-  const {
-    bold,
-    underline,
-    italic,
-    color,
-    backgroundColor,
-    fontSize,
-  } = props.leaf;
+  const { bold, underline, italic, color, backgroundColor, fontSize } =
+    props.leaf;
 
   const style: React.CSSProperties = {
     color,
-    fontSize,
+    fontSize: `${fontSize}px`,
     fontWeight: bold ? "bold" : "unset",
     fontStyle: italic ? "italic" : "unset",
     textDecoration: underline ? "underline" : "unset",
@@ -76,33 +77,37 @@ const Leaf = (props: RenderLeafProps) => {
 };
 
 const EditorComponent = () => {
-  const [fontSize, setFontSize] = useState(16);
-  const [textColor, setTextColor] = useState("#ffffff");
-  const [highlightColor, setHighlightColor] = useState("unset");
-  const [fontFamily, setFontFamily] = useState("Arial")
   const [editor] = useState(() => withReact(createEditor()));
   const editorRef = useRef<HTMLDivElement | null>(null);
 
-  const initialValue: Descendant[] = [
-    {
-      type: "paragraph",
-      textAlign: "left",
-      fontFamily: fontFamily,
-      paraSpaceAfter: 0,
-      paraSpaceBefore: 0,
-      lineHeight: 1.2,
-      children: [{
-        text: "",
-        textAlign: "left",
-        color: textColor,
-        fontSize: `${fontSize}px`,
-        bold: false,
-        italic: false,
-        underline: false,
-        backgroundColor: highlightColor,
-      }],
-    },
-  ];
+  const initialValue: Descendant[] = useMemo(() => {
+    const stored = localStorage.getItem("content");
+    return stored
+      ? JSON.parse(stored)
+      : [
+          {
+            type: "paragraph",
+            textAlign: "left",
+            fontFamily: "Arial",
+            paraSpaceAfter: 0,
+            paraSpaceBefore: 0,
+            lineHeight: 1.2,
+            children: [
+              {
+                text: "",
+                textAlign: "left",
+                color: "#ffffff",
+                fontSize: `16px`,
+                bold: false,
+                italic: false,
+                underline: false,
+                backgroundColor: "unset",
+              },
+            ],
+          },
+        ];
+  }, []);
+
   useEffect(() => {
     ReactEditor.focus(editor);
   }, [editor]);
@@ -121,17 +126,20 @@ const EditorComponent = () => {
   }, []);
 
   return (
-    <Slate editor={editor} initialValue={initialValue}>
-      <SecondaryHeader
-        fontSize={fontSize}
-        setFontSize={setFontSize}
-        textColor={textColor}
-        setTextColor={setTextColor}
-        highlightColor={highlightColor}
-        setHighlightColor={setHighlightColor}
-        fontFamily={fontFamily}
-        setFontFamily={setFontFamily}
-      />
+    <Slate
+      editor={editor}
+      initialValue={initialValue}
+      onChange={(value) => {
+        const isAstChange = editor.operations.some(
+          (op) => "set_selection" !== op.type,
+        );
+        if (isAstChange) {
+          const content = JSON.stringify(value);
+          localStorage.setItem("content", content);
+        }
+      }}
+    >
+      <SecondaryHeader />
       <Editable
         className="h-[1123px] w-[794px] border-1 border-[#666666] focus-within:outline-none"
         ref={editorRef}

@@ -2,7 +2,7 @@ type TextAlign = "left" | "center" | "right" | "justify";
 
 type CustomText = {
   text: string;
-  fontSize: string;
+  fontSize: number;
   color: string;
   bold: boolean;
   italic: boolean;

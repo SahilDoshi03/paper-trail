@@ -8,9 +8,9 @@ import { useSlate } from "slate-react";
 import { loadGoogleFont } from "@/app/utils/FontFamily";
 
 const FontsPopover = ({
-  setFontFamily,
+  // setFontFamily,
 }: {
-  setFontFamily: Dispatch<SetStateAction<string>>;
+  // setFontFamily: Dispatch<SetStateAction<string>>;
 }) => {
   const editor = useSlate();
   const [fonts, setFonts] = useState(["Arial", "Times New Roman"]);
@@ -31,7 +31,7 @@ const FontsPopover = ({
             className={`p-2 hover:bg-[#222222] cursor-pointer ${CustomEditor.getFontFamily(editor) === font ? "bg-[#222222]" : ""}`}
             style={{ fontFamily: font }}
             onClick={() => {
-              setFontFamily(font);
+              // setFontFamily(font);
               loadGoogleFont(font);
               CustomEditor.setFontFamily(editor, font);
             }}
@@ -45,7 +45,8 @@ const FontsPopover = ({
           title={"Fonts"}
           open={customModalOpen}
           onClose={() => setCustomModalOpen(false)}
-          children={<CustomFontSelector setFontFamily={setFontFamily} />}
+          // children={<CustomFontSelector setFontFamily={setFontFamily} />}
+          children={<CustomFontSelector/>}
         />
       )}
     </>
