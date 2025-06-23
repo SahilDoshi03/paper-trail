@@ -10,14 +10,13 @@ const CustomFontSelector = () => {
     const loadFonts = async () => {
       const res = await fetch('/api/fonts');
       const data = await res.json();
-      console.log("DATA", data)
       setFontsList(data.items || []);
     };
     loadFonts();
   }, []);
 
   return (
-    <>
+    <div className="modal">
       <div className="flex justify-between items-center">
         <input id="font-search" type="search" placeholder="Search Fonts" className="border-1 p-2 rounded-sm"/>
         <div className="flex gap-4">
@@ -35,6 +34,6 @@ const CustomFontSelector = () => {
             </li>
           )) : <>Loading...</>}
       </div>
-    </>)
+    </div>)
 }
 export default CustomFontSelector

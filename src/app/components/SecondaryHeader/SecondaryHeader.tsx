@@ -28,7 +28,7 @@ import { CustomEditor } from "@/app/utils/CustomEditor";
 import { useSlate } from "slate-react";
 import { Dispatch, SetStateAction } from "react";
 import AlignPopover from "./AlignPopover";
-import LineSpacingPopoverMenu from "./LineSpacingPopoverMenu"
+import LineSpacingPopoverMenu from "./LineSpacingPopoverMenu";
 import FontsPopover from "./FontsPopover";
 
 const alignmentIcons = {
@@ -39,15 +39,26 @@ const alignmentIcons = {
 };
 
 type SecondaryHeaderProps = {
-  fontSize: number,
-  setFontSize: Dispatch<SetStateAction<number>>,
-  textColor: string,
-  setTextColor: Dispatch<SetStateAction<string>>,
-  highlightColor: string,
-  setHighlightColor: Dispatch<SetStateAction<string>>
-}
+  fontSize: number;
+  setFontSize: Dispatch<SetStateAction<number>>;
+  textColor: string;
+  setTextColor: Dispatch<SetStateAction<string>>;
+  highlightColor: string;
+  setHighlightColor: Dispatch<SetStateAction<string>>;
+  fontFamily: string;
+  setFontFamily: Dispatch<SetStateAction<string>>;
+};
 
-const SecondaryHearder = ({ fontSize, setFontSize, textColor, setTextColor, highlightColor, setHighlightColor }: SecondaryHeaderProps) => {
+const SecondaryHearder = ({
+  fontSize,
+  setFontSize,
+  textColor,
+  setTextColor,
+  highlightColor,
+  setHighlightColor,
+  fontFamily,
+  setFontFamily,
+}: SecondaryHeaderProps) => {
   const editor = useSlate();
   const currentAlign = CustomEditor.getTextAlign(editor);
   const CurrentAlignIcon = alignmentIcons[currentAlign];
@@ -57,9 +68,7 @@ const SecondaryHearder = ({ fontSize, setFontSize, textColor, setTextColor, high
       <div className="flex items-center">
         <section className="flex items-center gap-2 px-2 border-r-1">
           <MdOutlinePrint size={20} />
-          <div>
-            Zoom
-          </div>
+          <div>Zoom</div>
         </section>
 
         <section className="flex items-center gap-2 px-2 border-r-1">
@@ -75,11 +84,11 @@ const SecondaryHearder = ({ fontSize, setFontSize, textColor, setTextColor, high
                 className="icon-btn"
                 type="button"
               >
-                Font
+                {fontFamily}
               </button>
             }
           >
-            <FontsPopover />
+            <FontsPopover setFontFamily={setFontFamily} />
           </Popover>
         </section>
 

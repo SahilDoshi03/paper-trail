@@ -32,13 +32,14 @@ const CodeElement = (props: RenderElementProps) => {
 };
 
 const DefaultElement = (props: RenderElementProps) => {
-  const { textAlign, lineHeight, paraSpaceBefore, paraSpaceAfter } = props.element;
+  const { textAlign, lineHeight, paraSpaceBefore, paraSpaceAfter, fontFamily } = props.element;
 
   const style: React.CSSProperties = {
-    textAlign: textAlign,
-    lineHeight: lineHeight,
+    textAlign,
+    lineHeight,
     marginTop: paraSpaceBefore,
-    marginBottom: paraSpaceAfter
+    marginBottom: paraSpaceAfter,
+    fontFamily
   };
 
   return (
@@ -78,6 +79,7 @@ const EditorComponent = () => {
   const [fontSize, setFontSize] = useState(16);
   const [textColor, setTextColor] = useState("#ffffff");
   const [highlightColor, setHighlightColor] = useState("unset");
+  const [fontFamily, setFontFamily] = useState("Arial")
   const [editor] = useState(() => withReact(createEditor()));
   const editorRef = useRef<HTMLDivElement | null>(null);
 
@@ -85,7 +87,7 @@ const EditorComponent = () => {
     {
       type: "paragraph",
       textAlign: "left",
-      fontFamily: "Arial",
+      fontFamily: fontFamily,
       paraSpaceAfter: 0,
       paraSpaceBefore: 0,
       lineHeight: 1.2,
@@ -127,6 +129,8 @@ const EditorComponent = () => {
         setTextColor={setTextColor}
         highlightColor={highlightColor}
         setHighlightColor={setHighlightColor}
+        fontFamily={fontFamily}
+        setFontFamily={setFontFamily}
       />
       <Editable
         className="h-[1123px] w-[794px] border-1 border-[#666666] focus-within:outline-none"

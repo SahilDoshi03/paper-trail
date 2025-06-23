@@ -177,4 +177,15 @@ export const CustomEditor = {
 
     return 0;
   },
+
+  setFontFamily(editor: Editor, fontFamily: string) {
+    Transforms.setNodes(
+      editor,
+      { fontFamily },
+      {
+        match: (n) => Element.isElement(n),
+        mode: "lowest",
+      },
+    );
+  },
 };

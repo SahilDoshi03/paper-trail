@@ -6,9 +6,16 @@ export default function Popover({ trigger, children }) {
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (popoverRef.current && !popoverRef.current.contains(e.target)) {
+      if (
+        popoverRef.current &&
+        !popoverRef.current.contains(e.target) &&
+        !e.target.closest(".modal")
+      ) {
         setOpen(false);
       }
+      // if (popoverRef.current && !popoverRef.current.contains(e.target)) {
+      //   setOpen(false);
+      // }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -21,8 +28,10 @@ export default function Popover({ trigger, children }) {
       </div>
 
       {open && (
-        <div className="absolute top-full left-1/2 translate-x-[-10px] z-20 bg-[#333333] 
-          text-white rounded-sm shadow-md transition-all duration-200">
+        <div
+          className="absolute top-full left-1/2 translate-x-[-10px] z-20 bg-[#333333] 
+          text-white rounded-sm shadow-md transition-all duration-200"
+        >
           {children}
         </div>
       )}
