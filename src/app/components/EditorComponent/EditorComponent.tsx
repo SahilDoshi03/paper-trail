@@ -1,12 +1,6 @@
 "use client";
 
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { createEditor } from "slate";
 import {
   Slate,
@@ -77,40 +71,56 @@ const Leaf = (props: RenderLeafProps) => {
 };
 
 const EditorComponent = () => {
+  const [docValue, setDocValue] = useState<Descendant[]>([
+    {
+      type: "paragraph",
+      textAlign: "left",
+      fontFamily: "Arial",
+      paraSpaceAfter: 0,
+      paraSpaceBefore: 0,
+      lineHeight: 1.2,
+      children: [
+        {
+          text: "",
+          textAlign: "left",
+          color: "#ffffff",
+          fontSize: 16,
+          bold: false,
+          italic: false,
+          underline: false,
+          backgroundColor: "unset",
+        },
+      ],
+    },
+  ]);
+  const [loading, setLoading] = useState(true);
   const [editor] = useState(() => withReact(createEditor()));
   const editorRef = useRef<HTMLDivElement | null>(null);
 
-  const initialValue: Descendant[] = useMemo(() => {
-    const stored = localStorage.getItem("content");
-    return stored
-      ? JSON.parse(stored)
-      : [
-          {
-            type: "paragraph",
-            textAlign: "left",
-            fontFamily: "Arial",
-            paraSpaceAfter: 0,
-            paraSpaceBefore: 0,
-            lineHeight: 1.2,
-            children: [
-              {
-                text: "",
-                textAlign: "left",
-                color: "#ffffff",
-                fontSize: `16px`,
-                bold: false,
-                italic: false,
-                underline: false,
-                backgroundColor: "unset",
-              },
-            ],
-          },
-        ];
+  useEffect(() => {
+    const getDocs = async () => {
+      try {
+        const res = await fetch("/api/documents/2");
+        const { document } = await res.json();
+        console.log("DOC", document);
+        if (document?.elements) {
+          setDocValue(document.elements);
+        }
+      } catch (error) {
+        console.error("Failed to load or create document:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getDocs();
   }, []);
 
   useEffect(() => {
-    ReactEditor.focus(editor);
-  }, [editor]);
+    if (!loading && editorRef.current) {
+      ReactEditor.focus(editor);
+    }
+  }, [editor, loading]);
 
   const renderElement = useCallback((props: RenderElementProps) => {
     switch (props.element.type) {
@@ -125,17 +135,34 @@ const EditorComponent = () => {
     return <Leaf {...props} />;
   }, []);
 
+  if (loading) {
+    return <h1>Loading</h1>;
+  }
+
   return (
     <Slate
       editor={editor}
-      initialValue={initialValue}
-      onChange={(value) => {
+      initialValue={docValue}
+      onChange={async (value) => {
         const isAstChange = editor.operations.some(
-          (op) => "set_selection" !== op.type,
+          (op) => op.type !== "set_selection",
         );
-        if (isAstChange) {
-          const content = JSON.stringify(value);
-          localStorage.setItem("content", content);
+
+        if (!isAstChange) return;
+
+        try {
+          const res = await fetch(`/api/documents/2`, {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ elements: value }),
+          });
+
+          const updated = await res.json();
+          console.log("Patched doc:", updated);
+        } catch (error) {
+          console.error("Failed to patch document", error);
         }
       }}
     >

@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getRedisClient } from "@/app/lib/redis";
 import Fuse from "fuse.js"; 
 
-export async function GET(request: Request) {
+export async function GET(req: NextRequest) {
   const key = process.env.GOOGLE_API_KEY;
-  const url = new URL(request.url);
+  const url = new URL(req.url);
   const sort = url.searchParams.get("sort") || "alpha";
   const query = url.searchParams.get("q")?.toLowerCase() || "";
 
