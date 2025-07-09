@@ -122,6 +122,23 @@ const EditorComponent = () => {
     }
   }, [editor, loading]);
 
+  const saveDocument = async () => {
+    try {
+      const res = await fetch("/api/documents/2", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ elements: docValue }),
+      });
+
+      const updated = await res.json();
+      console.log("Document saved", updated);
+    } catch (error) {
+      console.error("Failed to save document", error);
+    }
+  };
+
   const renderElement = useCallback((props: RenderElementProps) => {
     switch (props.element.type) {
       case "code":
@@ -148,21 +165,8 @@ const EditorComponent = () => {
           (op) => op.type !== "set_selection",
         );
 
-        if (!isAstChange) return;
-
-        try {
-          const res = await fetch(`/api/documents/2`, {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ elements: value }),
-          });
-
-          const updated = await res.json();
-          console.log("Patched doc:", updated);
-        } catch (error) {
-          console.error("Failed to patch document", error);
+        if (isAstChange) {
+          setDocValue(value);
         }
       }}
     >
@@ -184,6 +188,12 @@ const EditorComponent = () => {
           }
 
           switch (event.key) {
+            case "s": {
+              event.preventDefault();
+              saveDocument(); // manual save
+              break;
+            }
+
             case "~": {
               event.preventDefault();
               CustomEditor.toggleCodeBlock(editor);
