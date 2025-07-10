@@ -88,7 +88,7 @@ const EditorComponent = () => {
           bold: false,
           italic: false,
           underline: false,
-          backgroundColor: "unset",
+          backgroundColor: "transparent",
         },
       ],
     },
