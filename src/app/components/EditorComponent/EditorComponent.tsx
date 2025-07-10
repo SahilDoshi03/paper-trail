@@ -57,9 +57,9 @@ const Leaf = (props: RenderLeafProps) => {
   const style: React.CSSProperties = {
     color,
     fontSize: `${fontSize}px`,
-    fontWeight: bold ? "bold" : "unset",
-    fontStyle: italic ? "italic" : "unset",
-    textDecoration: underline ? "underline" : "unset",
+    fontWeight: bold ? "bold" : "normal",
+    fontStyle: italic ? "italic" : "normal",
+    textDecoration: underline ? "underline" : "none",
     backgroundColor: backgroundColor,
   };
 
