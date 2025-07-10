@@ -100,9 +100,8 @@ const EditorComponent = () => {
   useEffect(() => {
     const getDocs = async () => {
       try {
-        const res = await fetch("/api/documents/2");
+        const res = await fetch("/api/documents/1");
         const { document } = await res.json();
-        console.log("DOC", document);
         if (document?.elements) {
           setDocValue(document.elements);
         }
@@ -124,7 +123,7 @@ const EditorComponent = () => {
 
   const saveDocument = async () => {
     try {
-      const res = await fetch("/api/documents/2", {
+      const res = await fetch("/api/documents/1", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
