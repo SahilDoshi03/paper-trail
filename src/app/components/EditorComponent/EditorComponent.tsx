@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { createEditor } from "slate";
+import React, { useState, useCallback, useRef } from "react";
+import { createEditor, Descendant } from "slate";
 import {
   Slate,
   Editable,
@@ -9,11 +9,13 @@ import {
   withReact,
   RenderLeafProps,
 } from "slate-react";
-import { BaseEditor, Descendant } from "slate";
+import { BaseEditor } from "slate";
 import { ReactEditor } from "slate-react";
 import SecondaryHeader from "@/app/components/SecondaryHeader/SecondaryHeader";
 import { CustomEditor } from "@/app/utils/CustomEditor";
 import type { CustomElement, CustomText } from "@/app/types/Editor";
+import type { Document } from "@/app/types/Document";
+import { updateDocument } from "@/app/actions";
 
 declare module "slate" {
   interface CustomTypes {
@@ -70,72 +72,17 @@ const Leaf = (props: RenderLeafProps) => {
   );
 };
 
-const EditorComponent = () => {
-  const [docValue, setDocValue] = useState<Descendant[]>([
-    {
-      type: "paragraph",
-      textAlign: "left",
-      fontFamily: "Arial",
-      paraSpaceAfter: 0,
-      paraSpaceBefore: 0,
-      lineHeight: 1.2,
-      children: [
-        {
-          text: "",
-          textAlign: "left",
-          color: "#ffffff",
-          fontSize: 16,
-          bold: false,
-          italic: false,
-          underline: false,
-          backgroundColor: "transparent",
-        },
-      ],
-    },
-  ]);
-  const [loading, setLoading] = useState(true);
+type EditorComponentProps = {
+  docId: string;
+  docValue: Document;
+};
+
+const EditorComponent = ({ docId, docValue }: EditorComponentProps) => {
   const [editor] = useState(() => withReact(createEditor()));
   const editorRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const getDocs = async () => {
-      try {
-        const res = await fetch("/api/documents/1");
-        const { document } = await res.json();
-        if (document?.elements) {
-          setDocValue(document.elements);
-        }
-      } catch (error) {
-        console.error("Failed to load or create document:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getDocs();
-  }, []);
-
-  useEffect(() => {
-    if (!loading && editorRef.current) {
-      ReactEditor.focus(editor);
-    }
-  }, [editor, loading]);
-
-  const saveDocument = async () => {
-    try {
-      const res = await fetch("/api/documents/1", {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ elements: docValue }),
-      });
-
-      const updated = await res.json();
-      console.log("Document saved", updated);
-    } catch (error) {
-      console.error("Failed to save document", error);
-    }
+  const saveDocument = async (elements: Descendant[]) => {
+    await updateDocument(docId, elements);
   };
 
   const renderElement = useCallback((props: RenderElementProps) => {
@@ -151,21 +98,17 @@ const EditorComponent = () => {
     return <Leaf {...props} />;
   }, []);
 
-  if (loading) {
-    return <h1>Loading</h1>;
-  }
-
   return (
     <Slate
       editor={editor}
-      initialValue={docValue}
+      initialValue={docValue.elements}
       onChange={async (value) => {
         const isAstChange = editor.operations.some(
           (op) => op.type !== "set_selection",
         );
 
         if (isAstChange) {
-          setDocValue(value);
+          await saveDocument(value);
         }
       }}
     >
@@ -189,7 +132,7 @@ const EditorComponent = () => {
           switch (event.key) {
             case "s": {
               event.preventDefault();
-              saveDocument(); // manual save
+              saveDocument(editor.children); 
               break;
             }
 

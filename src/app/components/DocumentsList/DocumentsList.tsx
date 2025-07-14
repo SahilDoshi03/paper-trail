@@ -1,0 +1,40 @@
+import DocumentPreviewItem from "./DocumentPreviewItem"
+import type { Document } from "@/app/types/Document"
+import { getDocuments } from "@/app/actions"
+
+const DocumentsList = async () => {
+  const documents = await getDocuments()
+
+  return (
+    <>
+      <section className="w-300">
+        <h2 className="text-xl font-bold mb-4">
+          Start a new document
+        </h2>
+        <DocumentPreviewItem
+          image="https://ssl.gstatic.com/docs/templates/thumbnails/docs-blank-googlecolors.png"
+          title="Blank Document"
+        />
+      </section>
+      <section className="w-300">
+        <h2 className="text-xl font-bold mb-4">
+          Recent Documents
+        </h2>
+        {
+          <div className="flex gap-4">
+            {documents.map((item: Document) =>
+              <DocumentPreviewItem
+                key={item.id}
+                id={String(item.id)}
+                image="https://ssl.gstatic.com/docs/templates/thumbnails/docs-blank-googlecolors.png"
+                title={item.title}
+              />)
+            }
+          </div>
+        }
+      </section>
+    </>
+  )
+}
+
+export default DocumentsList

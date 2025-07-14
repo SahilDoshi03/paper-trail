@@ -1,8 +1,6 @@
 "use client";
 
 import {
-  Dispatch,
-  SetStateAction,
   useEffect,
   useState,
   useRef,
@@ -12,6 +10,7 @@ import type { WebFont } from "@/app/types/Font";
 import { CustomEditor } from "@/app/utils/CustomEditor";
 import { useSlate } from "slate-react";
 import { loadGoogleFont } from "@/app/utils/FontFamily";
+import { getGoogleFonts } from "@/app/actions";
 
 const SORT_OPTIONS = {
   alpha: "Alphabetical",
@@ -78,13 +77,7 @@ const CustomFontSelector = () => {
   useEffect(() => {
     const loadFonts = async () => {
       setLoading(true);
-      const query = new URLSearchParams({ sort });
-      query.append("q", deferredSearch);
-
-      const res = await fetch(`/api/fonts?${query.toString()}`);
-      const data = await res.json();
-      const items = data.items || [];
-
+      const items = await getGoogleFonts(sort, deferredSearch);
       setFontsList(items);
       setLoading(false);
     };
