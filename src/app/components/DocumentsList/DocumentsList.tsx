@@ -1,6 +1,6 @@
 import DocumentPreviewItem from "./DocumentPreviewItem"
 import type { Document } from "@/app/types/Document"
-import { getDocuments } from "@/app/actions"
+import { getDocuments } from "@/app/actions/Document"
 
 const DocumentsList = async () => {
   const documents = await getDocuments()

@@ -10,7 +10,7 @@ import type { WebFont } from "@/app/types/Font";
 import { CustomEditor } from "@/app/utils/CustomEditor";
 import { useSlate } from "slate-react";
 import { loadGoogleFont } from "@/app/utils/FontFamily";
-import { getGoogleFonts } from "@/app/actions";
+import { getGoogleFonts } from "@/app/actions/Font";
 
 const SORT_OPTIONS = {
   alpha: "Alphabetical",

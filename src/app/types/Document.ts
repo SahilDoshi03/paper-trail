@@ -1,6 +1,6 @@
 import { Descendant } from "slate";
 
-type Document = {
+type DocumentType = {
   id: number;
   title: string;
   elements: Descendant[];
@@ -8,4 +8,4 @@ type Document = {
   updatedAt: Date;
 };
 
-export type { Document }
+export type { DocumentType }

@@ -1,10 +1,6 @@
-'use server'
+import { DocumentType } from "@/app/types/Document";
 
-import { Document } from "./types/Document";
-import { Descendant } from "slate";
-import { WebFont } from "./types/Font";
-
-export async function getDocument(docId: string): Promise<Document | null> {
+export async function getDocument(docId: string): Promise<DocumentType | null> {
   try {
     const res = await fetch(`http://localhost:3001/api/documents/${docId}`);
     if (!res.ok) {
@@ -19,14 +15,14 @@ export async function getDocument(docId: string): Promise<Document | null> {
   }
 }
 
-export async function updateDocument(docId: string, elements: Descendant[]): Promise<Document | null> {
+export async function updateDocument(docId: string, docValue: Partial<DocumentType>): Promise<DocumentType | null> {
   try {
     const res = await fetch(`http://localhost:3001/api/documents/${docId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ elements }),
+      body: JSON.stringify(docValue),
     });
 
     if (!res.ok) {
@@ -43,7 +39,7 @@ export async function updateDocument(docId: string, elements: Descendant[]): Pro
   }
 }
 
-export async function getDocuments(): Promise<Document[]> {
+export async function getDocuments(): Promise<DocumentType[]> {
   try {
     const res = await fetch("http://localhost:3001/api/documents");
     if (!res.ok) {
@@ -58,7 +54,7 @@ export async function getDocuments(): Promise<Document[]> {
   }
 }
 
-export async function createDocument(title: string): Promise<Document | null> {
+export async function createDocument(title: string): Promise<DocumentType | null> {
   try {
     const res = await fetch("http://localhost:3001/api/documents", {
       method: "POST",
@@ -83,18 +79,5 @@ export async function createDocument(title: string): Promise<Document | null> {
   }
 }
 
-export async function getGoogleFonts(sort: string, query: string): Promise<WebFont[]> {
-  try {
-    const params = new URLSearchParams({ sort, q: query });
-    const res = await fetch(`http://localhost:3000/api/fonts?${params.toString()}`);
-    if (!res.ok) {
-      console.error(`Failed to fetch fonts: ${res.statusText}`);
-      return [];
-    }
-    const data = await res.json();
-    return data.items || [];
-  } catch (error) {
-    console.error("Failed to load fonts:", error);
-    return [];
-  }
-}
+
+

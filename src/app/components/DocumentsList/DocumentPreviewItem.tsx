@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { createDocument } from "@/app/actions"
+import { createDocument } from "@/app/actions/Document"
 
 type DocumentPreviewItemProps = {
   image: string,

@@ -14,8 +14,8 @@ import { ReactEditor } from "slate-react";
 import SecondaryHeader from "@/app/components/SecondaryHeader/SecondaryHeader";
 import { CustomEditor } from "@/app/utils/CustomEditor";
 import type { CustomElement, CustomText } from "@/app/types/Editor";
-import type { Document } from "@/app/types/Document";
-import { updateDocument } from "@/app/actions";
+import type { DocumentType } from "@/app/types/Document";
+import { updateDocument } from "@/app/actions/Document";
 
 declare module "slate" {
   interface CustomTypes {
@@ -74,7 +74,7 @@ const Leaf = (props: RenderLeafProps) => {
 
 type EditorComponentProps = {
   docId: string;
-  docValue: Document;
+  docValue: DocumentType;
 };
 
 const EditorComponent = ({ docId, docValue }: EditorComponentProps) => {
@@ -82,7 +82,7 @@ const EditorComponent = ({ docId, docValue }: EditorComponentProps) => {
   const editorRef = useRef<HTMLDivElement | null>(null);
 
   const saveDocument = async (elements: Descendant[]) => {
-    await updateDocument(docId, elements);
+    await updateDocument(docId, { elements });
   };
 
   const renderElement = useCallback((props: RenderElementProps) => {
