@@ -1,5 +1,5 @@
 import DocumentPreviewItem from "./DocumentPreviewItem"
-import type { Document } from "@/app/types/Document"
+import type { DocumentType } from "@/app/types/Document"
 import { getDocuments } from "@/app/actions/Document"
 
 const DocumentsList = async () => {
@@ -21,8 +21,8 @@ const DocumentsList = async () => {
           Recent Documents
         </h2>
         {
-          <div className="flex gap-4">
-            {documents.map((item: Document) =>
+          <div className="flex flex-wrap gap-4">
+            {documents.map((item: DocumentType) =>
               <DocumentPreviewItem
                 key={item.id}
                 id={String(item.id)}

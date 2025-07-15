@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import { createEditor, Descendant } from "slate";
 import {
   Slate,
@@ -16,6 +16,7 @@ import { CustomEditor } from "@/app/utils/CustomEditor";
 import type { CustomElement, CustomText } from "@/app/types/Editor";
 import type { DocumentType } from "@/app/types/Document";
 import { updateDocument } from "@/app/actions/Document";
+import debounce from "lodash.debounce";
 
 declare module "slate" {
   interface CustomTypes {
@@ -98,17 +99,56 @@ const EditorComponent = ({ docId, docValue }: EditorComponentProps) => {
     return <Leaf {...props} />;
   }, []);
 
+  const debouncedSave = useCallback(
+    debounce((value: Descendant[]) => {
+      saveDocument(value);
+    }, 1000),
+    [docId],
+  );
+
+  useEffect(() => {
+    return () => {
+      debouncedSave.cancel(); // clean up debounce on unmount
+    };
+  }, [debouncedSave]);
+
+  const initialValue: Descendant[] =
+    docValue.elements && docValue.elements.length > 0
+      ? docValue.elements
+      : [
+        {
+          type: "paragraph",
+          textAlign: "left",
+          fontFamily: "Arial",
+          paraSpaceAfter: 0,
+          paraSpaceBefore: 0,
+          lineHeight: 1.2,
+          children: [
+            {
+              text: "",
+              textAlign: "left",
+              color: "#ffffff",
+              fontSize: 16,
+              bold: false,
+              italic: false,
+              underline: false,
+              backgroundColor: "transparent",
+            },
+          ],
+        },
+      ];
+
   return (
     <Slate
       editor={editor}
-      initialValue={docValue.elements}
+      initialValue={initialValue}
       onChange={async (value) => {
         const isAstChange = editor.operations.some(
           (op) => op.type !== "set_selection",
         );
 
         if (isAstChange) {
-          await saveDocument(value);
+          debouncedSave(value);
         }
       }}
     >
@@ -132,7 +172,7 @@ const EditorComponent = ({ docId, docValue }: EditorComponentProps) => {
           switch (event.key) {
             case "s": {
               event.preventDefault();
-              saveDocument(editor.children); 
+              saveDocument(editor.children);
               break;
             }
 

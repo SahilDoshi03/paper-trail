@@ -3,21 +3,18 @@
 import EditorComponent from "@/app/components/EditorComponent/EditorComponent";
 import { getDocument, updateDocument } from "@/app/actions/Document";
 import { DocumentType } from "@/app/types/Document";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import { useState, useRef, useEffect } from 'react';
 
-interface DocumentPageProps {
-  params: { id: string };
-}
-
-export default function Document({ params }: DocumentPageProps) {
+export default function Document() {
+  const params = useParams()
   const [docValue, setDocValue] = useState<DocumentType | null>(null);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [currentTitle, setCurrentTitle] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const docId = params.id;
+  const docId = params.id as string;
 
   useEffect(() => {
     const fetchDocument = async () => {

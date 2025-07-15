@@ -1,8 +1,11 @@
+'use server'
+
 import { DocumentType } from "@/app/types/Document";
 
 export async function getDocument(docId: string): Promise<DocumentType | null> {
   try {
-    const res = await fetch(`http://localhost:3001/api/documents/${docId}`);
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
+    const res = await fetch(`${baseUrl}/api/documents/${docId}`);
     if (!res.ok) {
       console.error(`Failed to fetch document: ${res.statusText}`);
       return null;
@@ -15,9 +18,13 @@ export async function getDocument(docId: string): Promise<DocumentType | null> {
   }
 }
 
-export async function updateDocument(docId: string, docValue: Partial<DocumentType>): Promise<DocumentType | null> {
+export async function updateDocument(
+  docId: string,
+  docValue: Partial<DocumentType>,
+): Promise<DocumentType | null> {
   try {
-    const res = await fetch(`http://localhost:3001/api/documents/${docId}`, {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
+    const res = await fetch(`${baseUrl}/api/documents/${docId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -41,11 +48,15 @@ export async function updateDocument(docId: string, docValue: Partial<DocumentTy
 
 export async function getDocuments(): Promise<DocumentType[]> {
   try {
-    const res = await fetch("http://localhost:3001/api/documents");
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
+
+    const res = await fetch(`${baseUrl}/api/documents`);
+
     if (!res.ok) {
       console.error(`Failed to fetch documents: ${res.statusText}`);
       return [];
     }
+
     const { documents } = await res.json();
     return documents;
   } catch (error) {
@@ -54,9 +65,12 @@ export async function getDocuments(): Promise<DocumentType[]> {
   }
 }
 
-export async function createDocument(title: string): Promise<DocumentType | null> {
+export async function createDocument(
+  title: string,
+): Promise<DocumentType | null> {
   try {
-    const res = await fetch("http://localhost:3001/api/documents", {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
+    const res = await fetch(`${baseUrl}/api/documents`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -78,6 +92,3 @@ export async function createDocument(title: string): Promise<DocumentType | null
     return null;
   }
 }
-
-
-
