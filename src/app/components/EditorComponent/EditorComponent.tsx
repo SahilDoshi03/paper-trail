@@ -108,9 +108,16 @@ const EditorComponent = ({ docId, docValue }: EditorComponentProps) => {
 
   useEffect(() => {
     return () => {
-      debouncedSave.cancel(); // clean up debounce on unmount
+      debouncedSave.cancel(); 
     };
   }, [debouncedSave]);
+
+    useEffect(() => {
+    if (editorRef.current) {
+      ReactEditor.focus(editor);
+    }
+  }, [editor]);
+
 
   const initialValue: Descendant[] =
     docValue.elements && docValue.elements.length > 0
