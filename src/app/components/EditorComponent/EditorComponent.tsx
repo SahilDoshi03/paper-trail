@@ -13,8 +13,8 @@ import { BaseEditor } from "slate";
 import { ReactEditor } from "slate-react";
 import SecondaryHeader from "@/app/components/SecondaryHeader/SecondaryHeader";
 import { CustomEditor } from "@/app/utils/CustomEditor";
-import type { CustomElement, CustomText } from "@/app/types/Editor";
-import type { DocumentType } from "@/app/types/Document";
+import type { CustomElement, CustomText } from "@/app/lib/schemas/Document";
+import type { DocumentType } from "@/app/lib/schemas/Document";
 import { updateDocument } from "@/app/actions/Document";
 import debounce from "lodash.debounce";
 

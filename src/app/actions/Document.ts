@@ -1,6 +1,6 @@
 'use server'
 
-import { DocumentType } from "@/app/types/Document";
+import { DocumentType } from "@/app/lib/schemas/Document";
 
 export async function getDocument(docId: string): Promise<DocumentType | null> {
   try {
