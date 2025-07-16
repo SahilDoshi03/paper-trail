@@ -108,7 +108,7 @@ const EditorComponent = ({ docId, docValue }: EditorComponentProps) => {
 
   useEffect(() => {
     return () => {
-      debouncedSave.cancel(); // clean up debounce on unmount
+      debouncedSave.cancel();
     };
   }, [debouncedSave]);
 
