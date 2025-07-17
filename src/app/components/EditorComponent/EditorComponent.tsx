@@ -1,7 +1,10 @@
 "use client";
 
-import React, { useState, useCallback, useRef, useEffect } from "react";
-import { createEditor, Descendant } from "slate";
+import {
+  useRoom,
+} from "@liveblocks/react/suspense";
+import React, { useState, useCallback, useRef, useEffect, useMemo } from "react";
+import { Editor, BaseEditor, createEditor, Descendant, Transforms } from "slate";
 import {
   Slate,
   Editable,
@@ -9,7 +12,6 @@ import {
   withReact,
   RenderLeafProps,
 } from "slate-react";
-import { BaseEditor } from "slate";
 import { ReactEditor } from "slate-react";
 import SecondaryHeader from "@/app/components/SecondaryHeader/SecondaryHeader";
 import { CustomEditor } from "@/app/utils/CustomEditor";
@@ -17,6 +19,10 @@ import type { CustomElement, CustomText } from "@/app/lib/schemas/Document";
 import type { DocumentType } from "@/app/lib/schemas/Document";
 import { updateDocument } from "@/app/actions/Document";
 import debounce from "lodash.debounce";
+import { getYjsProviderForRoom, LiveblocksYjsProvider } from "@liveblocks/yjs";
+import * as Y from 'yjs'
+import { withCursors, withYjs, YjsEditor } from "@slate-yjs/core";
+import { useSession } from "next-auth/react";
 
 declare module "slate" {
   interface CustomTypes {
@@ -73,13 +79,99 @@ const Leaf = (props: RenderLeafProps) => {
   );
 };
 
-type EditorComponentProps = {
+type CollaborativeComponentProps = {
   docId: string;
   docValue: DocumentType;
 };
 
-const EditorComponent = ({ docId, docValue }: EditorComponentProps) => {
-  const [editor] = useState(() => withReact(createEditor()));
+type EditorComponentProps = {
+  docId: string;
+  docValue: DocumentType;
+  sharedType: Y.XmlText;
+  yProvider: LiveblocksYjsProvider;
+};
+
+export function CollaborativeEditor({ docId, docValue }: CollaborativeComponentProps) {
+  const room = useRoom();
+  const [connected, setConnected] = useState(false);
+
+  // Set up Yjs
+  const yProvider = getYjsProviderForRoom(room);
+  const yDoc = yProvider.getYDoc();
+  const sharedType = yDoc.get("slate", Y.XmlText) as Y.XmlText;
+
+  useEffect(() => {
+    yProvider.on("sync", setConnected);
+
+    return () => {
+      yProvider?.off("sync", setConnected);
+    };
+  }, [room]);
+
+  if (!connected || !sharedType) {
+    return <div>Loading…</div>;
+  }
+
+  return (
+    <EditorComponent docId={docId} docValue={docValue} yProvider={yProvider} sharedType={sharedType} />
+  )
+}
+
+const EditorComponent = ({ docId, docValue, sharedType, yProvider }: EditorComponentProps) => {
+  const session = useSession()
+  console.log("SESSION", session)
+  const initialValue: Descendant[] =
+    docValue.elements && docValue.elements.length > 0
+      ? docValue.elements
+      : [
+        {
+          type: "paragraph",
+          textAlign: "left",
+          fontFamily: "Arial",
+          paraSpaceAfter: 0,
+          paraSpaceBefore: 0,
+          lineHeight: 1.2,
+          children: [
+            {
+              text: "",
+              textAlign: "left",
+              color: "#ffffff",
+              fontSize: 16,
+              bold: false,
+              italic: false,
+              underline: false,
+              backgroundColor: "transparent",
+            },
+          ],
+        },
+      ];
+
+  const editor = useMemo(() => {
+    const e = withReact(
+      withCursors(
+        withYjs(createEditor(), sharedType),
+        yProvider.awareness as any,
+        {
+          data: {
+            name: session?.data?.user?.name || "sahil"
+          }
+        }
+      ));
+
+    // Ensure editor always has at least 1 valid child
+    const { normalizeNode } = e;
+    e.normalizeNode = (entry) => {
+      const [node] = entry;
+
+      if (!Editor.isEditor(node) || node.children.length > 0) {
+        return normalizeNode(entry);
+      }
+
+      Transforms.insertNodes(editor, initialValue, { at: [0] });
+    };
+
+    return e;
+  }, []);
   const editorRef = useRef<HTMLDivElement | null>(null);
 
   const saveDocument = async (elements: Descendant[]) => {
@@ -107,43 +199,23 @@ const EditorComponent = ({ docId, docValue }: EditorComponentProps) => {
   );
 
   useEffect(() => {
+    YjsEditor.connect(editor);
+    return () => YjsEditor.disconnect(editor);
+  }, [editor]);
+
+  useEffect(() => {
     return () => {
-      debouncedSave.cancel(); 
+      debouncedSave.cancel();
     };
   }, [debouncedSave]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (editorRef.current) {
       ReactEditor.focus(editor);
     }
   }, [editor]);
 
 
-  const initialValue: Descendant[] =
-    docValue.elements && docValue.elements.length > 0
-      ? docValue.elements
-      : [
-        {
-          type: "paragraph",
-          textAlign: "left",
-          fontFamily: "Arial",
-          paraSpaceAfter: 0,
-          paraSpaceBefore: 0,
-          lineHeight: 1.2,
-          children: [
-            {
-              text: "",
-              textAlign: "left",
-              color: "#ffffff",
-              fontSize: 16,
-              bold: false,
-              italic: false,
-              underline: false,
-              backgroundColor: "transparent",
-            },
-          ],
-        },
-      ];
 
   return (
     <Slate

@@ -1,15 +1,22 @@
 'use client';
 
-import EditorComponent from "@/app/components/EditorComponent/EditorComponent";
+import {
+  ClientSideSuspense,
+  LiveblocksProvider,
+  RoomProvider,
+  useRoom,
+} from "@liveblocks/react/suspense";
+import { CollaborativeEditor } from "@/app/components/EditorComponent/EditorComponent";
 import { getDocument, updateDocument } from "@/app/actions/Document";
 import { DocumentType } from "@/app/lib/schemas/Document";
 import { notFound, useParams } from "next/navigation";
 import { useState, useRef, useEffect } from 'react';
-import { signIn, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function Document() {
   const { data: sessionData } = useSession()
-  console.log(sessionData)
+  const router = useRouter()
   const params = useParams()
   const [docValue, setDocValue] = useState<DocumentType | null>(null);
   const [loading, setLoading] = useState(true);
@@ -85,15 +92,29 @@ export default function Document() {
         )}
         <form
           action={async () => {
-            await signIn("google")
+            router.push("/")
+            await signOut()
+
           }}
+          className="cursor-pointer"
         >
-          <button type="submit">Signin with Google</button>
+          <button
+            className="cursor-pointer"
+            type="submit"
+          >
+            Sign Out
+          </button>
         </form>
       </div>
       {docValue && (
         <div className="flex flex-col gap-10 items-center justify-center">
-          <EditorComponent docId={docId} docValue={docValue} />
+          <LiveblocksProvider publicApiKey={"pk_dev_DYJpqEUIQdx448Q6y9zG3qY0SS1JGCfOqJA4yWsdtmesllY3mHU4JavReJKvq-Ou"}>
+            <RoomProvider id="my-room">
+              <ClientSideSuspense fallback={<div>Loading...</div>}>
+                <CollaborativeEditor docId={docId} docValue={docValue} />
+              </ClientSideSuspense>
+            </RoomProvider>
+          </LiveblocksProvider>
         </div>
       )}
     </div>
