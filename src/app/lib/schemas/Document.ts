@@ -44,5 +44,5 @@ export type TextAlign = z.infer<typeof TextAlignEnum>;
 export type CustomText = z.infer<typeof CustomTextSchema>;
 export type CustomElement = z.infer<typeof CustomElementSchema>;
 export type Descendant = CustomElement | CustomText;
-export type DocumentType = z.infer<typeof DocumentSchema>;
+export type EditorDocument = z.infer<typeof DocumentSchema>;
 
