@@ -17,7 +17,7 @@ const DocumentPreviewItem = ({ image, title, id }: DocumentPreviewItemProps) => 
     if (id) {
       router.push(`/${id}`)
     } else {
-      const document = await createDocument('Untitled Document')
+      const document = await createDocument()
       if (document) {
         router.push(`/${document.id}`)
       }
