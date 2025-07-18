@@ -4,11 +4,10 @@ import {
   ClientSideSuspense,
   LiveblocksProvider,
   RoomProvider,
-  useRoom,
 } from "@liveblocks/react/suspense";
-import { CollaborativeEditor } from "@/app/components/EditorComponent/EditorComponent";
+import { CollaborativeEditor } from "@/app/components/Editor/CollaborativeEditor";
 import { getDocument, updateDocument } from "@/app/actions/Document";
-import { DocumentType } from "@/app/lib/schemas/Document";
+import type { EditorDocument } from "@/app/lib/schemas/Document";
 import { notFound, useParams } from "next/navigation";
 import { useState, useRef, useEffect } from 'react';
 import { signOut, useSession } from "next-auth/react";
@@ -18,7 +17,7 @@ export default function Document() {
   const { data: sessionData } = useSession()
   const router = useRouter()
   const params = useParams()
-  const [docValue, setDocValue] = useState<DocumentType | null>(null);
+  const [docValue, setDocValue] = useState<EditorDocument | null>(null);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [currentTitle, setCurrentTitle] = useState('');

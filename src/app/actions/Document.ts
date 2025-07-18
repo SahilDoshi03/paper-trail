@@ -1,8 +1,8 @@
 'use server'
 
-import { DocumentType } from "@/app/lib/schemas/Document";
+import { EditorDocument } from "@/app/lib/schemas/Document";
 
-export async function getDocument(docId: string): Promise<DocumentType | null> {
+export async function getDocument(docId: string): Promise<EditorDocument | null> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
     const res = await fetch(`${baseUrl}/api/documents/${docId}`);
@@ -20,8 +20,8 @@ export async function getDocument(docId: string): Promise<DocumentType | null> {
 
 export async function updateDocument(
   docId: string,
-  docValue: Partial<DocumentType>,
-): Promise<DocumentType | null> {
+  docValue: Partial<EditorDocument>,
+): Promise<EditorDocument | null> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
     const res = await fetch(`${baseUrl}/api/documents/${docId}`, {
@@ -46,7 +46,7 @@ export async function updateDocument(
   }
 }
 
-export async function getDocuments(): Promise<DocumentType[]> {
+export async function getDocuments(): Promise<EditorDocument[]> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
 
@@ -67,7 +67,7 @@ export async function getDocuments(): Promise<DocumentType[]> {
 
 export async function createDocument(
   title: string,
-): Promise<DocumentType | null> {
+): Promise<EditorDocument | null> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
     const res = await fetch(`${baseUrl}/api/documents`, {

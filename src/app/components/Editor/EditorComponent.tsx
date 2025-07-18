@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  useRoom,
-} from "@liveblocks/react/suspense";
-import React, { useState, useCallback, useRef, useEffect, useMemo } from "react";
+import React, { useCallback, useRef, useEffect, useMemo } from "react";
 import { Editor, BaseEditor, createEditor, Descendant, Transforms } from "slate";
 import {
   Slate,
@@ -16,10 +13,10 @@ import { ReactEditor } from "slate-react";
 import SecondaryHeader from "@/app/components/SecondaryHeader/SecondaryHeader";
 import { CustomEditor } from "@/app/utils/CustomEditor";
 import type { CustomElement, CustomText } from "@/app/lib/schemas/Document";
-import type { DocumentType } from "@/app/lib/schemas/Document";
+import type { EditorDocument } from "@/app/lib/schemas/Document";
 import { updateDocument } from "@/app/actions/Document";
 import debounce from "lodash.debounce";
-import { getYjsProviderForRoom, LiveblocksYjsProvider } from "@liveblocks/yjs";
+import {  LiveblocksYjsProvider } from "@liveblocks/yjs";
 import * as Y from 'yjs'
 import { withCursors, withYjs, YjsEditor } from "@slate-yjs/core";
 import { useSession } from "next-auth/react";
@@ -79,43 +76,12 @@ const Leaf = (props: RenderLeafProps) => {
   );
 };
 
-type CollaborativeComponentProps = {
-  docId: string;
-  docValue: DocumentType;
-};
-
 type EditorComponentProps = {
   docId: string;
-  docValue: DocumentType;
+  docValue: EditorDocument;
   sharedType: Y.XmlText;
   yProvider: LiveblocksYjsProvider;
 };
-
-export function CollaborativeEditor({ docId, docValue }: CollaborativeComponentProps) {
-  const room = useRoom();
-  const [connected, setConnected] = useState(false);
-
-  // Set up Yjs
-  const yProvider = getYjsProviderForRoom(room);
-  const yDoc = yProvider.getYDoc();
-  const sharedType = yDoc.get("slate", Y.XmlText) as Y.XmlText;
-
-  useEffect(() => {
-    yProvider.on("sync", setConnected);
-
-    return () => {
-      yProvider?.off("sync", setConnected);
-    };
-  }, [room]);
-
-  if (!connected || !sharedType) {
-    return <div>Loading…</div>;
-  }
-
-  return (
-    <EditorComponent docId={docId} docValue={docValue} yProvider={yProvider} sharedType={sharedType} />
-  )
-}
 
 const EditorComponent = ({ docId, docValue, sharedType, yProvider }: EditorComponentProps) => {
   const session = useSession()
@@ -158,7 +124,6 @@ const EditorComponent = ({ docId, docValue, sharedType, yProvider }: EditorCompo
         }
       ));
 
-    // Ensure editor always has at least 1 valid child
     const { normalizeNode } = e;
     e.normalizeNode = (entry) => {
       const [node] = entry;
