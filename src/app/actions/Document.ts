@@ -65,9 +65,7 @@ export async function getDocuments(): Promise<EditorDocument[]> {
   }
 }
 
-export async function createDocument(
-  title: string,
-): Promise<EditorDocument | null> {
+export async function createDocument(): Promise<EditorDocument | null> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
     const res = await fetch(`${baseUrl}/api/documents`, {
@@ -75,9 +73,6 @@ export async function createDocument(
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        title,
-      }),
     });
 
     if (!res.ok) {
