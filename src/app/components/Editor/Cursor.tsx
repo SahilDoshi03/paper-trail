@@ -4,7 +4,6 @@ import {
 } from "@slate-yjs/react";
 import React, { CSSProperties, ReactNode, useRef } from "react";
 import { Cursor } from "@/app/types/Cursor";
-import styles from "./Cursors.module.css";
 
 const Cursors = ({ children }: { children: ReactNode }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -13,7 +12,7 @@ const Cursors = ({ children }: { children: ReactNode }) => {
   });
 
   return (
-    <div className={styles.cursors} ref={containerRef}>
+    <div className="relative" ref={containerRef}>
       {children}
       {cursors.map((cursor) => {
         return < Selection key={cursor.clientId} {...cursor} />
@@ -40,7 +39,7 @@ function Selection({
       {selectionRects.map((position, i) => (
         <div
           style={{ ...selectionStyle, ...position }}
-          className={styles.selection}
+          className="absolute pointer-events-none opacity-20"
           key={i}
         />
       ))}
@@ -63,8 +62,14 @@ function Caret({ caretPosition, data }: CaretProps) {
   };
 
   return (
-    <div style={caretStyle} className={styles.caretMarker}>
-      <div className={styles.caret} style={labelStyle}>
+    <div
+      style={caretStyle}
+      className="absolute w-[2px]"
+    >
+      <div
+        className="absolute text-xs text-white whitespace-nowrap top-0 rounded rounded-bl-none px-1.5 py-0.5 pointer-events-none"
+        style={labelStyle}
+      >
         {data?.name}
       </div>
     </div>
