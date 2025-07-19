@@ -144,7 +144,9 @@ const SecondaryHearder = () => {
             />
           </button>
           <button className="icon-btn relative p-1">
-            <MdBrush size={20} color={CustomEditor.getHighlightColor(editor)} />
+            <MdBrush 
+              style={{ borderColor: CustomEditor.getHighlightColor(editor) }}
+              className="border-b-3" size={20} />
             <input
               type="color"
               value={CustomEditor.getHighlightColor(editor)}

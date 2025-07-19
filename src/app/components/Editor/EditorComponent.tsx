@@ -16,10 +16,11 @@ import type { CustomElement, CustomText } from "@/app/lib/schemas/Document";
 import type { EditorDocument } from "@/app/lib/schemas/Document";
 import { updateDocument } from "@/app/actions/Document";
 import debounce from "lodash.debounce";
-import {  LiveblocksYjsProvider } from "@liveblocks/yjs";
+import { LiveblocksYjsProvider } from "@liveblocks/yjs";
 import * as Y from 'yjs'
 import { withCursors, withYjs, YjsEditor } from "@slate-yjs/core";
 import { useSession } from "next-auth/react";
+import Cursors from "./Cursor";
 
 declare module "slate" {
   interface CustomTypes {
@@ -85,7 +86,6 @@ type EditorComponentProps = {
 
 const EditorComponent = ({ docId, docValue, sharedType, yProvider }: EditorComponentProps) => {
   const session = useSession()
-  console.log("SESSION", session)
   const initialValue: Descendant[] =
     docValue.elements && docValue.elements.length > 0
       ? docValue.elements
@@ -119,7 +119,8 @@ const EditorComponent = ({ docId, docValue, sharedType, yProvider }: EditorCompo
         yProvider.awareness as any,
         {
           data: {
-            name: session?.data?.user?.name || "sahil"
+            name: session?.data?.user?.name || "sahil",
+            color: "#215915",
           }
         }
       ));
@@ -197,55 +198,57 @@ const EditorComponent = ({ docId, docValue, sharedType, yProvider }: EditorCompo
       }}
     >
       <SecondaryHeader />
-      <Editable
-        className="h-[1123px] w-[794px] border-1 border-[#666666] focus-within:outline-none"
-        ref={editorRef}
-        renderElement={renderElement}
-        renderLeaf={renderLeaf}
-        onBlur={(e) => {
-          const related = e.relatedTarget;
-          if (related?.tagName !== "INPUT") {
-            editorRef.current?.focus();
-          }
-        }}
-        onKeyDown={(event) => {
-          if (!event.ctrlKey) {
-            return;
-          }
-
-          switch (event.key) {
-            case "s": {
-              event.preventDefault();
-              saveDocument(editor.children);
-              break;
+      <Cursors>
+        <Editable
+          className="h-[1123px] w-[794px] border-1 border-[#666666] focus-within:outline-none"
+          ref={editorRef}
+          renderElement={renderElement}
+          renderLeaf={renderLeaf}
+          onBlur={(e) => {
+            const related = e.relatedTarget;
+            if (related?.tagName !== "INPUT") {
+              editorRef.current?.focus();
+            }
+          }}
+          onKeyDown={(event) => {
+            if (!event.ctrlKey) {
+              return;
             }
 
-            case "~": {
-              event.preventDefault();
-              CustomEditor.toggleCodeBlock(editor);
-              break;
-            }
+            switch (event.key) {
+              case "s": {
+                event.preventDefault();
+                saveDocument(editor.children);
+                break;
+              }
 
-            case "b": {
-              event.preventDefault();
-              CustomEditor.toggleBoldMark(editor);
-              break;
-            }
+              case "~": {
+                event.preventDefault();
+                CustomEditor.toggleCodeBlock(editor);
+                break;
+              }
 
-            case "i": {
-              event.preventDefault();
-              CustomEditor.toggleItalicMark(editor);
-              break;
-            }
+              case "b": {
+                event.preventDefault();
+                CustomEditor.toggleBoldMark(editor);
+                break;
+              }
 
-            case "u": {
-              event.preventDefault();
-              CustomEditor.toggleUnderlineMark(editor);
-              break;
+              case "i": {
+                event.preventDefault();
+                CustomEditor.toggleItalicMark(editor);
+                break;
+              }
+
+              case "u": {
+                event.preventDefault();
+                CustomEditor.toggleUnderlineMark(editor);
+                break;
+              }
             }
-          }
-        }}
-      />
+          }}
+        />
+      </Cursors>
     </Slate>
   );
 };
