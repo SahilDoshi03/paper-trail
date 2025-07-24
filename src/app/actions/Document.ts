@@ -87,3 +87,22 @@ export async function createDocument(): Promise<EditorDocument | null> {
     return null;
   }
 }
+
+export async function deleteDocument(docId: string): Promise<boolean> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
+    const res = await fetch(`${baseUrl}/api/documents/${docId}`, {
+      method: "DELETE",
+    });
+
+    if (!res.ok) {
+      console.error(`Failed to delete document: ${res.statusText}`);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Failed to delete document", error);
+    return false;
+  }
+}

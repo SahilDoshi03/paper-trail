@@ -56,7 +56,7 @@ const DocumentPreviewItem = ({ image, title, id }: DocumentPreviewItemProps) => 
             </button>
           }
         >
-          <DocumentListMenuPopover />
+          <DocumentListMenuPopover id={id as string} />
         </Popover>
       </div>
     </div>
