@@ -7,7 +7,7 @@ import {
 import { useState, useEffect } from "react";
 import { CustomEditor } from "@/app/utils/CustomEditor";
 import { useSlate } from "slate-react";
-import { TextAlign } from "@/app/types/Editor";
+import { TextAlign } from "@/app/lib/schemas/Document";
 import { IconType } from "react-icons";
 import { Editor, Element } from "slate";
 
