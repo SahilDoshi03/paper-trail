@@ -6,7 +6,7 @@ const DocumentsList = async () => {
   const documents = await getDocuments()
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col gap-10 items-center py-10">
       <section className="w-300">
         <h2 className="text-xl font-bold mb-4">
           Start a new document
@@ -33,7 +33,7 @@ const DocumentsList = async () => {
           </div>
         }
       </section>
-    </>
+    </div>
   )
 }
 

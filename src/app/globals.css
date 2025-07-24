@@ -1,5 +1,22 @@
 @import "tailwindcss";
 
+@theme {
+  --color-surface-default: #1e2022;    /* was dark-100 */
+  --color-surface-muted: #212325;     /* was dark-300 */
+  --color-surface-raised: #181a1b;      /* was dark-200 */
+  --color-surface-light: #e0e2db;      /* was alabaster */
+
+  --color-brand-primary: #dab1da;      /* was mauve */
+  --color-accent-action: #247b7b;      /* was teal */
+
+  --color-text-light: #e0e2db;
+  --color-text-contrast: #191011;      /* was licorice */
+  --color-text-muted: #b1aaa0;
+
+
+  --color-border-muted: #b1aaa0;
+}
+
 @layer base {
   /* CSS Reset */
 
@@ -18,8 +35,16 @@
   }
 
   /* Remove default margin in favour of better control in authored CSS */
-  body, h1, h2, h3, h4, p,
-  figure, blockquote, dl, dd {
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  figure,
+  blockquote,
+  dl,
+  dd {
     margin-block-end: 0;
   }
 
@@ -36,14 +61,21 @@
   }
 
   /* Set shorter line heights on headings and interactive elements */
-  h1, h2, h3, h4,
-  button, input, label {
+  h1,
+  h2,
+  h3,
+  h4,
+  button,
+  input,
+  label {
     line-height: 1.1;
   }
 
   /* Balance text wrapping on headings */
-  h1, h2,
-  h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     text-wrap: balance;
   }
 
@@ -61,8 +93,10 @@
   }
 
   /* Inherit fonts for inputs and buttons */
-  input, button,
-  textarea, select {
+  input,
+  button,
+  textarea,
+  select {
     font-family: inherit;
     font-size: inherit;
   }
