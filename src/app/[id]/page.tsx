@@ -5,9 +5,9 @@ import {
   LiveblocksProvider,
   RoomProvider,
 } from "@liveblocks/react/suspense";
-import { CollaborativeEditor } from "@/app/components/Editor/CollaborativeEditor";
+import { CollaborativeEditor } from "@/components/Editor/CollaborativeEditor";
 import { getDocument, updateDocument } from "@/app/actions/Document";
-import type { EditorDocument } from "@/app/lib/schemas/Document";
+import type { EditorDocument } from "@/lib/schemas/Document";
 import { notFound, useParams } from "next/navigation";
 import { useState, useRef, useEffect } from 'react';
 import { signOut, useSession } from "next-auth/react";

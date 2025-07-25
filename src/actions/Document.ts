@@ -5,7 +5,12 @@ import { EditorDocument } from "@/app/lib/schemas/Document";
 export async function getDocument(docId: string): Promise<EditorDocument | null> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
-    const res = await fetch(`${baseUrl}/api/documents/${docId}`);
+    const res = await fetch(`${baseUrl}/api/documents/${docId}?userId=${1}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     if (!res.ok) {
       console.error(`Failed to fetch document: ${res.statusText}`);
       return null;

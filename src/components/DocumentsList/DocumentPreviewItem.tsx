@@ -2,9 +2,9 @@
 
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { createDocument } from "@/app/actions/Document"
+import { createDocument } from "@/actions/Document"
 import { CiMenuKebab } from "react-icons/ci";
-import Popover from '../common/Popover';
+import Popover from '@/components/common/Popover';
 import DocumentListMenuPopover from './DocumentListMenuPopover';
 
 type DocumentPreviewItemProps = {

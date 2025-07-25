@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Modal from "../common/Modal";
-import { deleteDocument, updateDocument } from "@/app/actions/Document";
+import Modal from "@/components/common/Modal";
+import { deleteDocument, updateDocument } from "@/actions/Document";
 
 const DocumentListMenuPopover = ({ id }: { id: string }) => {
   const router = useRouter();

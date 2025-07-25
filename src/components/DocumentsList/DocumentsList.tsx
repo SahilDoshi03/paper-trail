@@ -1,6 +1,6 @@
 import DocumentPreviewItem from "./DocumentPreviewItem"
-import type { EditorDocument } from "@/app/lib/schemas/Document"
-import { getDocuments } from "@/app/actions/Document"
+import type { EditorDocument } from "@/lib/schemas/Document"
+import { getDocuments } from "@/actions/Document"
 
 const DocumentsList = async () => {
   const documents = await getDocuments()

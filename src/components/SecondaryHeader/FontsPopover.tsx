@@ -3,9 +3,9 @@
 import { useState } from "react";
 import Modal from "../common/Modal";
 import CustomFontSelector from "./CustomFontSelector";
-import { CustomEditor } from "@/app/utils/CustomEditor";
+import { CustomEditor } from "@/lib/CustomEditor";
 import { useSlate } from "slate-react";
-import { loadGoogleFont } from "@/app/utils/FontFamily";
+import { loadGoogleFont } from "@/utils/FontFamily";
 
 const FontsPopover = () => {
   const editor = useSlate();

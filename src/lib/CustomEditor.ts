@@ -1,5 +1,5 @@
 import { Editor, Transforms, Element } from "slate";
-import { TextAlign } from "@/app/types/Editor";
+import { TextAlign } from "@/lib/schemas/Document";
 
 export const CustomEditor = {
   isBoldMarkActive(editor: Editor) {

@@ -1,4 +1,4 @@
-import DocumentListHeader from "../DocumentListHeader/DocumentListHeader"
+import DocumentListHeader from "./DocumentListHeader"
 import DocumentsList from "./DocumentsList"
 
 const DocumentListPage = () => {

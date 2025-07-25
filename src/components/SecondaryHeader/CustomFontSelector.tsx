@@ -6,11 +6,11 @@ import {
   useRef,
   useDeferredValue,
 } from "react";
-import type { WebFont } from "@/app/types/Font";
-import { CustomEditor } from "@/app/utils/CustomEditor";
+import type { WebFont } from "@/types/Font";
+import { CustomEditor } from "@/lib/CustomEditor";
 import { useSlate } from "slate-react";
-import { loadGoogleFont } from "@/app/utils/FontFamily";
-import { getGoogleFonts } from "@/app/actions/Font";
+import { loadGoogleFont } from "@/utils/FontFamily";
+import { getGoogleFonts } from "@/actions/Font";
 
 const SORT_OPTIONS = {
   alpha: "Alphabetical",

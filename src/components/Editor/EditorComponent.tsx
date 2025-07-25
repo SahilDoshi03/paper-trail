@@ -10,11 +10,11 @@ import {
   RenderLeafProps,
 } from "slate-react";
 import { ReactEditor } from "slate-react";
-import SecondaryHeader from "@/app/components/SecondaryHeader/SecondaryHeader";
-import { CustomEditor } from "@/app/utils/CustomEditor";
-import type { CustomElement, CustomText } from "@/app/lib/schemas/Document";
-import type { EditorDocument } from "@/app/lib/schemas/Document";
-import { updateDocument } from "@/app/actions/Document";
+import SecondaryHeader from "@/components/SecondaryHeader/SecondaryHeader";
+import { CustomEditor } from "@/lib/CustomEditor";
+import type { CustomElement, CustomText } from "@/lib/schemas/Document";
+import type { EditorDocument } from "@/lib/schemas/Document";
+import { updateDocument } from "@/actions/Document";
 import debounce from "lodash.debounce";
 import { LiveblocksYjsProvider } from "@liveblocks/yjs";
 import * as Y from 'yjs'

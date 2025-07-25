@@ -3,7 +3,7 @@ import {
   useRemoteCursorOverlayPositions,
 } from "@slate-yjs/react";
 import React, { CSSProperties, ReactNode, useRef } from "react";
-import { Cursor } from "@/app/types/Cursor";
+import { Cursor } from "@/types/Cursor";
 
 const Cursors = ({ children }: { children: ReactNode }) => {
   const containerRef = useRef<HTMLDivElement>(null);

@@ -5,7 +5,7 @@ import {
 import { getYjsProviderForRoom } from "@liveblocks/yjs";
 import * as Y from 'yjs'
 import EditorComponent from "./EditorComponent";
-import { EditorDocument } from "@/app/lib/schemas/Document";
+import { EditorDocument } from "@/lib/schemas/Document";
 
 type CollaborativeComponentProps = {
   docId: string;

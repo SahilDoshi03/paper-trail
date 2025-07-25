@@ -1,8 +1,8 @@
 "use client"
 
 import Image from 'next/image';
-import { signInWithGoogle } from "@/app/actions/auth/signInWithGoogle"
-import { signInWithGithub } from "@/app/actions/auth/signInWithGithub"
+import { signInWithGoogle } from "@/actions/auth/signInWithGoogle"
+import { signInWithGithub } from "@/actions/auth/signInWithGithub"
 
 const Auth = () => {
   return (

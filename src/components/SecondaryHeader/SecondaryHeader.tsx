@@ -23,24 +23,24 @@ import {
   MdFormatClear,
 } from "react-icons/md";
 import { GoPlus, GoDash } from "react-icons/go";
-import Popover from "@/app/components/common/Popover";
-import { CustomEditor } from "@/app/utils/CustomEditor";
+import Popover from "@/components/common/Popover";
+import { CustomEditor } from "@/lib/CustomEditor";
 import { useSlate } from "slate-react";
 import AlignPopover from "./AlignPopover";
 import LineSpacingPopoverMenu from "./LineSpacingPopoverMenu";
 import FontsPopover from "./FontsPopover";
 
 const alignmentIcons = {
-  left: MdOutlineFormatAlignLeft,
-  center: MdOutlineFormatAlignCenter,
-  right: MdOutlineFormatAlignRight,
-  justify: MdOutlineFormatAlignJustify,
+  "left": MdOutlineFormatAlignLeft,
+  "center": MdOutlineFormatAlignCenter,
+  "right": MdOutlineFormatAlignRight,
+  "justify": MdOutlineFormatAlignJustify,
 };
 
 const SecondaryHearder = () => {
   const editor = useSlate();
   const currentAlign = CustomEditor.getTextAlign(editor);
-  const CurrentAlignIcon = alignmentIcons[currentAlign];
+  const CurrentAlignIcon = alignmentIcons[currentAlign]
 
   return (
     <div className="w-full h-10 flex justify-between items-center p-5 rounded-full bg-[#222222]">

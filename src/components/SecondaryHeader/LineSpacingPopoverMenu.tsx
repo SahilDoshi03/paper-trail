@@ -1,7 +1,7 @@
 import { GoPlus, GoDash } from "react-icons/go";
 import { useSlate } from "slate-react";
 import { useState } from "react";
-import { CustomEditor } from "@/app/utils/CustomEditor";
+import { CustomEditor } from "@/lib/CustomEditor";
 
 const presetLineSpacings = [1, 1.2, 1.5, 2];
 

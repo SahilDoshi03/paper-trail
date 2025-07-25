@@ -5,9 +5,9 @@ import {
   MdOutlineFormatAlignCenter,
 } from "react-icons/md";
 import { useState, useEffect } from "react";
-import { CustomEditor } from "@/app/utils/CustomEditor";
+import { CustomEditor } from "@/lib/CustomEditor";
 import { useSlate } from "slate-react";
-import { TextAlign } from "@/app/lib/schemas/Document";
+import { TextAlign } from "@/lib/schemas/Document";
 import { IconType } from "react-icons";
 import { Editor, Element } from "slate";
 
