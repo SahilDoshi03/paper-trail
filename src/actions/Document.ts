@@ -55,7 +55,11 @@ export async function getDocuments(): Promise<EditorDocument[]> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
 
-    const res = await fetch(`${baseUrl}/api/documents`);
+    const res = await fetch(`${baseUrl}/api/documents`, {
+      headers: {
+        'x-user-id': '1'
+      }
+    });
 
     if (!res.ok) {
       console.error(`Failed to fetch documents: ${res.statusText}`);

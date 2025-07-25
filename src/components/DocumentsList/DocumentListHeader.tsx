@@ -1,3 +1,7 @@
+'use client'
+
+import { signOut } from "next-auth/react"
+
 const DocumentListHeader = () => {
   return (
     <div className="flex items-center justify-between bg-surface-raised py-4 px-6">
@@ -46,7 +50,12 @@ const DocumentListHeader = () => {
           </svg>
         </div>
       </div>
-      <div>Toggle</div>
+      <button
+        className="cursor-pointer"
+        onClick={() => signOut()}
+      >
+        Sign Out
+      </button>
     </div>
   )
 }

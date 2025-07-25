@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { signInWithGoogle } from "@/actions/auth/signInWithGoogle"
 import { signInWithGithub } from "@/actions/auth/signInWithGithub"
 
-const Auth = () => {
+const Login = () => {
   return (
     <div className="min-h-screen bg-surface-default text-text-light flex justify-center">
       <div className="max-w-screen-xl m-0 sm:m-10 bg-surface-raised shadow sm:rounded-lg flex justify-center flex-1">
@@ -111,4 +111,4 @@ const Auth = () => {
   )
 }
 
-export default Auth
+export default Login

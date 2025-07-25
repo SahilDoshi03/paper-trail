@@ -6,7 +6,7 @@ import {
   RoomProvider,
 } from "@liveblocks/react/suspense";
 import { CollaborativeEditor } from "@/components/Editor/CollaborativeEditor";
-import { getDocument, updateDocument } from "@/app/actions/Document";
+import { getDocument, updateDocument } from "@/actions/Document";
 import type { EditorDocument } from "@/lib/schemas/Document";
 import { notFound, useParams } from "next/navigation";
 import { useState, useRef, useEffect } from 'react';
